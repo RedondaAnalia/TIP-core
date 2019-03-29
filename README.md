@@ -1,4 +1,4 @@
-![icon](https://drive.google.com/open?id=1yFcZBN8S9T_oxb_7jm2ZrqpgfJdKRlZ9)
+![icon](logo.png)
 
 
 # PET HEROES
