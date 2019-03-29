@@ -1,9 +1,7 @@
-![icon](logo.png)
-
-
-# PET HEROES
-> 28 de Marzo del 2019
-
+<p align="center">
+  <h1 style="font-size:50px;">PET HEROES</h1>
+  <img src="logo.png" width="200" title="Pet heroes logo">
+</p>
 
 ## VISIÓN GENERAL
 Aplicación de gestión de actas médicas de mascotas para centralizar y digitalizar estudios y vacunaciones para la mascota en cuestión
