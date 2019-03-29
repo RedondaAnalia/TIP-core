@@ -9,20 +9,20 @@
 Aplicación de gestión de actas médicas de mascotas para centralizar y digitalizar estudios y vacunaciones para la mascota en cuestión
 
 ----
-##OBJETIVOS
+## OBJETIVOS
 Facilitar a las veterinarias el fácil acceso al expediente médico del paciente.
 Tener registro de la vacunacion correspondiente y alertar su próxima vacuna.
 Englobar servicios a mascotas de todo tipo.
 Incentivar al buen cuidado de las mascotas.
 
 ----
-##ESPECIFICACIONES
+## ESPECIFICACIONES
 Un sistema que al registrarte puedes adquirir puntos al mostrar responsabilidad en el cuidado de tus mascotas, se premiara o castigara con un sistema de puntos que adquiere tener su mascota con la vacunacion al dia, con las buenas conductas que le enseñas, con los me gusta(caricias) que tus amigos hacen a tus actividades. 
 Los registros y historias clinicas son creadas y modificadas sólo por veterinarios registrados que pueden acceder a toda la información. Pueden bajar las fichas y antecedentes en formato imprimible, las fichas pueden tener adjuntos estudios, radiografías, etc. 
 Los dueños de sus mascotas pueden puntuar al veterinario como a todos los servicios disponibles en la app, como paseadores, peluqueros, psicólogos caninos, etc. 
 
 ----
-##DESARROLLO
+## DESARROLLO
 Stack tecnológico
 Las tecnologías elegidas son para el Back-End Node-Express que será encargado de recibir las consultas de las diferentes interfaces. La base de datos en un principio será Mongo, pero cuando se llegue a la interacción entre amigos se agregara Neo4J. Para el Front-End se pensó usar Angular para el desarrollo Web y Android para la parte móvil.
 
