@@ -12,9 +12,15 @@ var userSchema = mongoose.Schema({
     },
     gender: String,
     phone: String,
-    pets: [Number],
-    experience: Number,
-    level: Number,
+    pets: [{ type : mongoose.ObjectId, ref: 'pet' , default: []}],
+    experience: {
+        type: Number,
+        default: 0
+    },
+    level: {
+        type: Number,
+        default: 0
+    },
     create_date: {
         type: Date,
         default: Date.now

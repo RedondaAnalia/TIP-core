@@ -24,8 +24,6 @@ exports.new = function (req, res) {
     user.gender = req.body.gender;
     user.email = req.body.email;
     user.phone = req.body.phone;
-    user.experience = 0;
-    user.level = 0;
 // save the user and check for errors
     user.save(function (err) {
         // if (err)
