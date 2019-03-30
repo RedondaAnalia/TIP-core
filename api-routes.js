@@ -19,5 +19,17 @@ router.route('/users/:user_id')
     .patch(userController.update)
     .put(userController.update)
     .delete(userController.delete);
+// Import veterinary controller
+var veterinaryController = require('./controller/veterinaryController');
+// Veterinary routes
+router.route('/veterinaries')
+    .get(veterinaryController.index)
+    .post(veterinaryController.new);
+router.route('/veterinaries/:veterinaries_id')
+    .get(veterinaryController.view)
+    .patch(veterinaryController.update)
+    .put(veterinaryController.update)
+    .delete(veterinaryController.delete);
+
 // Export API routes
 module.exports = router;
