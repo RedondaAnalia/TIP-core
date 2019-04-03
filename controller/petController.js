@@ -3,18 +3,20 @@
 Pet = require('../model/petModel');
 // Handle index actions
 exports.index = function (req, res) {
-    Pet.get(function (err, pet) {
+    Pet.find({ }, '').exec( (err, pets) => {
         if (err) {
-            res.json({
-                status: "error",
-                message: err,
+            res.status(500).json({
+                ok: false,
+                message: 'Error buscando mascotas',
+                errors: err
             });
         }
-        res.json({
-            status: "success",
-            message: "Pets retrieved successfully",
-            data: pet
-        });
+        Pet.count({}, (error,conteo) =>
+        res.status(200).json({
+            ok: true,
+            pets: pets,
+            total: conteo
+        }));
     });
 };
 // Handle create pet actions

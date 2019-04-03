@@ -7,7 +7,7 @@ var petController = require('../controller/petController');
 // User routes
 app.put('/',petController.update)
     .post('/application',petController.newApplication)
-  //  .get('/application', petController.getApplication)
+    .get('/', petController.index)
   //  .put('/application', petController.updateApplication);
 
     module.exports = app;
