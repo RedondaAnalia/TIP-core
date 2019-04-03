@@ -3,7 +3,7 @@
 Pet = require('../model/petModel');
 // Handle index actions
 exports.index = function (req, res) {
-    Pet.find({ }, '').exec( (err, pets) => {
+    Pet.find({ }).exec( (err, pets) => {
         if (err) {
             res.status(500).json({
                 ok: false,
