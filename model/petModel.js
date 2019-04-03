@@ -1,5 +1,6 @@
 // pettModel.js
 var mongoose = require('mongoose');
+var User = require('./userModel');
 // Setup schema
 var petSchema = mongoose.Schema({
     name: {
@@ -11,7 +12,7 @@ var petSchema = mongoose.Schema({
         required: true
     },
     castrate: Boolean,
-    vaccines: [{ type : mongoose.ObjectId, ref: 'Vaccine' , default: []}],
+    applications: [{ type : mongoose.ObjectId, ref: 'Application' , default: []}],
     gender: String,
     code: Number,
     milestones: [{ type : mongoose.ObjectId, ref: 'Milestone' , default: []}],
@@ -29,9 +30,14 @@ var petSchema = mongoose.Schema({
         default: Date.now
     }
 });
+//method
+petSchema.methods.findByType = function (callback) {
+    User.find()
+    return this.model('Book').find({ type: this.type }, callback);
+  };
+  
+
 // Export Pet model
-var Pet = module.exports = mongoose.model('pet', petSchema);
-module.exports.get = function (callback, limit) {
-    Pet.find(callback).limit(limit);
-}
+module.exports = mongoose.model('Pet', petSchema);
+
 
