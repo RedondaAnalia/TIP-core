@@ -43,16 +43,34 @@ exports.new = function (newPet) {
     });
 };
 // Handle view pet info
-exports.view = function (req, res) {
-    Pet.findById(req.params.pet_id, function (err, pet) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'Pet details loading..',
-            data: pet
-        });
+exports.findOne= function(req,res) {
+
+    var id= req.params.id;
+
+    Pet.findById( id, (err, savedPet ) => {
+
+            if( err ) {
+                return  res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error al buscar la mascota',
+                    errors: err
+                });
+            }
+        
+            if( !savedPet ) {
+                return  res.status(400).json({
+                    ok: false,
+                    mensaje: ' La mascota con el id' + id + 'no existe',
+                    errors: { message: ' No existe una mascota con ese ID'}
+                })
+            }
+            res.status(200).json({
+                ok: true,
+                savedPet
+            });
     });
 };
+
 // Handle update pet info
 exports.update = function (req, res) {
 Pet.findById(req.params.pet_id, function (err, pet) {
