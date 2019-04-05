@@ -33,6 +33,67 @@ para iniciar el servidor
 nodemon index
 ```
 
+## API
+
+| Obj | Tipo | URL | JSON
+| ------ | ------ |------|-------
+| User | Get | http://localhost:3000/users |  |
+| User | Get | http://localhost:3000/users?user_id=xxxx  |  |
+| User | Post | http://localhost:3000/users | {(1)} |
+| User | Put | http://localhost:3000/users?user_id=xxxx | {(1)}
+| User | Delete | http://localhost:3000/users?user_id=xxxx | 
+
+
+{(1)} 
+```json
+{
+	"name":"ana",
+	"email":"ana@mail.com",
+	"phone": 123456,
+	"gender" : "Female"
+}
+```
+para crear una mascota
+
+| Obj | Tipo |
+|-----|------|
+| POST | http://localhost:3000/users/pet |
+
+```json
+{
+	"user_id": "5ca3cba33006342404817f64",
+	"pet" : {
+		"name" : "chimuelo",
+		"date_of_birth" : "2014/10/20",
+		"castrate": true,
+		"gender": "MALE"
+		
+  }
+}
+```
+para aplicar una vacuna:
+
+| Obj | Tipo |
+|-----|------|
+| POST | http://localhost:3000/applications |
+
+```json
+{
+	"pet_id" : "5ca6c3bca653d91eae48383b",
+	"vaccine_id": "5ca6c4d5f41a5a205a4ae1ec",
+	"code": 123,
+	"img": "",
+	"estimate_date": "2019-11-20"
+}
+```
+
+para crear una vacuna : 
+
+| Obj | Tipo |
+|-----|------|
+| POST | http://localhost:3000/vaccine |
+
+
 
 ### Integrantes
 
