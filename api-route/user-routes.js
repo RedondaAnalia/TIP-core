@@ -7,6 +7,7 @@ var userController = require('../controller/userController');
 // User routes
 app.post('/pet',userController.newPet)
     .get('/', userController.index)
+    .get('/:id', userController.view)
     .post('/', userController.new);
 
     module.exports = app;

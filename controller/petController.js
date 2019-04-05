@@ -111,7 +111,7 @@ res.json({
 };
 // Handle new application for pet
 exports.application = function (req, res) {
-    Pet.findById(req.body.pet_id, function (err, pet) {
+    Pet.findById(req.body.pet_id).populate('applications').exec( function (err, pet) {
         if (err)
             return res.status(500).json({
                 ok: false,
