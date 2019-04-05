@@ -1,5 +1,6 @@
 // medicalCardtModel.js
 var mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 // Setup schema
 var applicationSchema = mongoose.Schema({
     

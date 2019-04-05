@@ -1,6 +1,7 @@
 // petController.js
 // Import pet model
 Pet = require('../model/petModel');
+let applicationController = require('./applicationController') 
 // Handle index actions
 exports.index = function (req, res) {
     Pet.find({ }).exec( (err, pets) => {
@@ -109,22 +110,22 @@ res.json({
     });
 };
 // Handle new application for pet
-exports.newApplication = function (req, res) {
-    Pet.findById(req.params.pet_id, function (err, pet) {
+exports.application = function (req, res) {
+    Pet.findById(req.body.pet_id, function (err, pet) {
         if (err)
             return res.status(500).json({
                 ok: false,
-                message: 'no se pudo agregar la aplicacion',
+                message: 'no se pudo agregar la aplicacion a la mascota con el id' + req.body.pet_id ,
                 errors: err
             });
         if (!pet)
             return res.status(500).json({
             ok: false,
-            message: 'la mascota no existe',
+            mensaje: ' La mascota con el id ' + req.body.pet_id + ' no existe',
             errors: err
         });
-            applicationController.new(req.body.pet).then((aplication) =>{
-                pet.aplications.push(aplication)
+            applicationController.new(req.body).then((aplication) =>{
+                pet.applications.push(aplication)
                 pet.save( (err, pet) =>{
                     if(err)
                         return res.status(400).json({

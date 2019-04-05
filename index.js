@@ -30,10 +30,12 @@ mongoose.connection.openUri('mongodb://localhost:27017/petHeroesDB',
 
 //Definicion de rutas.
 //app.use('/users', userRoutes);
+let vaccineRoutes = require("./api-route/vaccine-routes")
 let userRoutes = require("./api-route/user-routes")
 let petRoutes = require("./api-route/pet-routes")
 let appRoutes = require('./api-route/app')
 
+app.use('/vaccine', vaccineRoutes);
 app.use('/users', userRoutes);
 app.use('/pets', petRoutes);
 app.use('/', appRoutes);

@@ -9,6 +9,4 @@ app.post('/pet',userController.newPet)
     .get('/', userController.index)
     .post('/', userController.new);
 
-
-
     module.exports = app;
