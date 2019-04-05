@@ -10,7 +10,7 @@ exports.new = function (newApplication) {
             return reject(err)
         
         var application = new Application({
-            vaccine : vaccine._id,
+            vaccine : vaccine,
             code : newApplication.code,
             img : newApplication.img,
             estimated_date : newApplication.estimated_date,
@@ -25,4 +25,45 @@ exports.new = function (newApplication) {
             });
         });
     })
+};
+
+exports.update = function (req, res) {
+    Application.findById(req.params.vaccine_id, function (err, application) {
+            if (err)
+                res.send(err);
+            application.vaccine = req.body.vaccine;
+            application.code = req.body.code;
+            application.img = req.body.img;
+            application.estimated_date = req.body.estimated_date;
+            application.application_date = req.body.application_date;
+            
+    // save the pet and check for errors
+            application.save(function (err) {
+                if (err)
+                    res.json(err);
+                res.json({
+                    message: 'Application Info updated',
+                    data: application
+                });
+            });
+        });
+    };
+
+    // Handle index actions
+exports.index = function (req, res) {
+    Application.find({ }).exec( (err, applications) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                message: 'Error buscando aplicaciones',
+                errors: err
+            });
+        }
+        Application.count({}, (error,conteo) =>
+        res.status(200).json({
+            ok: true,
+            aplications: applications,
+            total: conteo
+        }));
+    });
 };

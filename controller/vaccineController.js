@@ -35,7 +35,7 @@ exports.new = function (req, res) {
         });
     });
 };
-// Handle view user info
+// Handle view vaccine info
 exports.view = function (req, res) {
     User.findById(req.params.user_id, function (err, vaccine) {
         if (err)
