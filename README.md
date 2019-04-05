@@ -93,7 +93,13 @@ para crear una vacuna :
 |-----|------|
 | POST | http://localhost:3000/vaccine |
 
+```json
 
+{
+	"name": "Anti rabica",
+	"code": 12346
+}
+```
 
 ### Integrantes
 
