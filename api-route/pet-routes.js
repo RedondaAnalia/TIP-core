@@ -1,7 +1,6 @@
 let express = require('express');
 let app = express(); 
 
-
 // Import user controller
 var petController = require('../controller/petController');
 // User routes
