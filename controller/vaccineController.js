@@ -1,10 +1,10 @@
 // vaccineController.js
 // Import vaccine model
-let Vaccine = require('../model/vaccineModel');
+let VaccineREpository = require('../repository/vaccine.repository');
 
 // Handle index actions
 exports.index = function (req, res) {
-    Vaccine.find({ }).exec( (err, vaccines) => {
+    VaccineREpository.find({ }).exec( (err, vaccines) => {
         if (err) {
             res.status(500).json({
                 ok: false,
@@ -22,18 +22,17 @@ exports.index = function (req, res) {
 };
 // Handle create vaccine actions
 exports.new = function (req, res) {
-    var vaccine = new Vaccine();
-    vaccine.name = req.body.name ? req.body.name : vaccine.name;
-    vaccine.code = req.body.code;
-// save the vacinne and check for errors
-    vaccine.save(function (err, vaccine) {
-         if (err)
-             return res.json(err);
-        res.json({
-            message: 'New vaccine created!',
-            data: vaccine
-        });
-    });
+    VaccineREpository.new(req.body).then(data => 
+    res.status(200).json({
+        ok:true,
+        vaccine : data
+    })).catch(err => 
+        res.status(400).json({
+            ok: false,
+            errors : err
+        })
+    );
+    
 };
 // Handle view vaccine info
 exports.view = function (req, res) {

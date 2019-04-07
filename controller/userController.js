@@ -2,7 +2,7 @@
 // Import user model
 let User = require('../model/userModel');
 
-let petController = require('./petController')
+let petRepository = require('../repository/pet.repositoty')
 // Handle index actions
 exports.index = function (req, res) {
     User.find({ }, '').populate('pets').exec( (err, users) => {
@@ -85,7 +85,7 @@ exports.newPet = (req, res) => {
                 message: 'no existe usuario con ese ID: ' + req.body.user_id
                 });
             }   
-            petController.new(req.body.pet).then((pet) =>{
+            petRepository.new(req.body.pet).then((pet) =>{
             user.pets.push(pet)
             user.save( (err, user) =>{
                 if(err)

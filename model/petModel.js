@@ -32,6 +32,8 @@ var petSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    species: String,
+    breed: String,
     create_date: {
         type: Date,
         default: Date.now
