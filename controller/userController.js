@@ -5,7 +5,7 @@ let User = require('../model/userModel');
 let petRepository = require('../repository/pet.repositoty')
 // Handle index actions
 exports.index = function (req, res) {
-    User.find({ }, '').populate('pets').exec( (err, users) => {
+    userRepository.findAll().exec( (err, users) => {
         if (err) {
             res.status(500).json({
                 ok: false,

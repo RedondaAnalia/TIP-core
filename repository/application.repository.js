@@ -29,10 +29,10 @@ exports.new = function (newApplication) {
     })
 };
 
-exports.update = function (req, res) {
+exports.update = function (req) {
     Application.findById(req.body.application_id, function (err, application) {
         if (err)
-            return res.send(err);
+            return reject(err)
         Vaccine.findById(req.body.vaccine_id, function (err, vaccine) {
             if (err)
                 return reject(err)
@@ -46,33 +46,16 @@ exports.update = function (req, res) {
             application.application_date = req.body.application_date;
 
             // save the pet and check for errors
-            application.save(function (err) {
-                if (err)
-                    res.json(err);
-                res.json({
-                    message: 'Application Info updated',
-                    data: application
-                });
-            });
+            application.save()
         });
     });
 };
 
 // Handle index actions
-exports.index = function (req, res) {
-    Application.find({}).exec((err, applications) => {
-        if (err) {
-            res.status(500).json({
-                ok: false,
-                message: 'Error buscando aplicaciones',
-                errors: err
-            });
-        }
-        Application.count({}, (error, conteo) =>
-            res.status(200).json({
-                ok: true,
-                aplications: applications,
-                total: conteo
-            }));
-    });
+exports.findAll = function () {
+    return Application.find({})
 };
+
+exports.countAll = function () {
+    return Application.count({})
+}
