@@ -31,21 +31,15 @@ exports.new = function (newApplication) {
 
 exports.update = function (req) {
     Application.findById(req.body.application_id, function (err, application) {
-        if (err)
-            return reject(err)
-        Vaccine.findById(req.body.vaccine_id, function (err, vaccine) {
-            if (err)
-                return reject(err)
-            if (vaccine == null){
-                //TODO FIXME GENERAR EL ERROR DE RETORNO
-            }
-            application.vaccine = vaccine;
-            application.code = req.body.code;
-            application.img = req.body.img;
-            application.estimated_date = req.body.estimated_date;
-            // save the pet and check for errors
-            application.save()
-        });
+    if (err)
+        return reject(err)
+        application.code = req.body.code? req.body.code : application.code;
+        application.img = req.body.img? req.body.img : application.img;
+        application.estimated_date = req.body.estimated_date? req.body.estimated_date:application.estimated_date;
+        application.application_date = req.body.application_date;
+
+        // save the pet and check for errors
+        return application.save()
     });
 };
 
