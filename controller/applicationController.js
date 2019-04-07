@@ -20,12 +20,18 @@ exports.index = function (req, res) {
 }
 
 exports.update = function (req, res) {
-    applicationReposity.update(req).then(function (err, application) {
-        if (err)
-            res.json(err);
+    applicationReposity.update(req).then((application) => {
         res.json({
+            ok : true,
             message: 'Application Info updated',
             data: application
         });
-    });
+    }).catch(err =>
+        res.status(500).json({
+            ok: false,
+            message: 'Error al updatear aplicaciones',
+            errors: err
+        }
+        )
+    )
 }
