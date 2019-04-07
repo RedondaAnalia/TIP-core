@@ -43,8 +43,6 @@ exports.update = function (req) {
             application.code = req.body.code;
             application.img = req.body.img;
             application.estimated_date = req.body.estimated_date;
-            application.application_date = req.body.application_date;
-
             // save the pet and check for errors
             application.save()
         });
