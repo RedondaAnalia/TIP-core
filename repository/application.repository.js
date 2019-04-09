@@ -33,13 +33,13 @@ exports.update = function (req) {
     return Application.findById(req.body.application_id, function (err, application) {
     if (err)
         return reject(err)
+        application.code = req.body.code? req.body.code : application.code;
+        application.img = req.body.img? req.body.img : application.img;
+        application.estimated_date = req.body.estimated_date? req.body.estimated_date:application.estimated_date;
+        application.application_date = req.body.application_date;
 
-    application.code = req.body.code? req.body.code : application.code;
-    application.img = req.body.img? req.body.img : application.img;
-    application.estimated_date = req.body.estimated_date? req.body.estimated_date:application.estimated_date;
-    application.application_date = req.body.application_date;
-
-    application.save()
+        // save the pet and check for errors
+        return application.save()
     });
 };
 
