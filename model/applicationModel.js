@@ -12,6 +12,7 @@ var applicationSchema = mongoose.Schema({
     },
     application_date: {
         type: Date,
+        default: null
     },
     create_date: {
         type: Date,
