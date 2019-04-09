@@ -14,7 +14,14 @@ exports.new = function (p) {
 }
 
 exports.findById = function (id) {
-    return Pet.findById(id).populate('applications')
+    return Pet.findById(id).populate({ 
+        path: 'applications',
+        populate: {
+          path: 'vaccine',
+          model: 'Vaccine'
+        } 
+     })
+     
 }
 
 exports.update = function (p) {

@@ -23,7 +23,7 @@ exports.index = function (req, res) {
 
 // Handle view pet info
 exports.findOne= function(req,res) {
-    Pet.findById(req.params.id).then(data => {
+    petRepository.findById(req.params.id).then(data => {
         if(data == null){
             return res.status(400).json({
                 ok:false,
