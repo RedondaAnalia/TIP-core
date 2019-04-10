@@ -4,11 +4,12 @@ let Schema = mongoose.Schema;
 // Setup schema
 var applicationSchema = mongoose.Schema({
     
-    vaccine: { type : Schema.Types.ObjectId, ref: 'Vaccine' },
+    vaccine: { type : Schema.Types.ObjectId, ref: 'Vaccine', required: true },
     code: Number,
     img: String,
     estimated_date: {
         type: Date,
+        required: true
     },
     application_date: {
         type: Date,
