@@ -4,7 +4,7 @@ let petRepository = require('../repository/pet.repositoty');
 let applicationReposity = require('../repository/application.repository') 
 // Handle index actions
 exports.index = function (req, res) {
-    Pet.find({ }).exec( (err, pets) => {
+    petRepository.findAll().exec( (err, pets) => {
         if (err) {
             res.status(500).json({
                 ok: false,
@@ -12,11 +12,11 @@ exports.index = function (req, res) {
                 errors: err
             });
         }
-        Pet.count({}, (error,conteo) =>
+        petRepository.getTotal().then(data =>
         res.status(200).json({
             ok: true,
             pets: pets,
-            total: conteo
+            total: data
         }));
     });
 };

@@ -20,7 +20,7 @@ exports.findById = function (id) {
           path: 'vaccine',
           model: 'Vaccine'
         } 
-     })
+     });
      
 }
 
@@ -46,7 +46,21 @@ exports.remove = function (pet_id){
     return pet.remove(pet_id)
 }
 
+exports.findAll = () => {
+    return Pet.find({ }, '').populate({ 
+        path: 'applications',
+        populate: {
+          path: 'vaccine',
+          model: 'Vaccine'
+        } 
+     })
+    }
+
 exports.addApplication = ((p, a) => {
     p.applications.push(a)
     return p.save()
 });
+
+exports.getTotal = () => {
+    return Pet.count({})
+} 
