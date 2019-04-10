@@ -1,7 +1,7 @@
 // userController.js
 // Import user model
 let User = require('../model/userModel');
-
+let userRepository = require('../repository/user.repository')
 let petRepository = require('../repository/pet.repositoty')
 // Handle index actions
 exports.index = function (req, res) {
@@ -13,7 +13,7 @@ exports.index = function (req, res) {
                 errors: err
             });
         }
-        User.count({}, (error,conteo) =>
+        userRepository.countAll().then( conteo =>
         res.status(200).json({
             ok: true,
             users: users,

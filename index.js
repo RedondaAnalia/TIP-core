@@ -1,5 +1,7 @@
 let express = require('express');
 let app = express();
+var swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./swagger.json');
 
 //Se agregan parsers para API
 let bodyParser = require('body-parser');
@@ -40,6 +42,7 @@ app.use('/applications', applicationRoutes);
 app.use('/vaccine', vaccineRoutes);
 app.use('/users', userRoutes);
 app.use('/pets', petRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', appRoutes);
 
 //Designacion de puerto por donde escucha la app.
