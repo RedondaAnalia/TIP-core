@@ -12,8 +12,6 @@ var medicalCardSchema = mongoose.Schema({
     }
 });
 // Export MedicalCard model
-var MedicalCard = module.exports = mongoose.model('medicalCard', medicalCardSchema);
-module.exports.get = function (callback, limit) {
-    MedicalCard.find(callback).limit(limit);
-}
+module.exports = mongoose.model('MedicalCard', medicalCardSchema);
+
 

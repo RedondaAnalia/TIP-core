@@ -20,6 +20,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mongoose": "^5.4.20",
-    "nodemon": "^1.18.10"
+    "mongoose-unique-validator": "^2.0.2",
+    "nodemon": "^1.18.10",
+    "swagger-ui-express": "^4.0.2"
   }
 }

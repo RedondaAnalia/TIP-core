@@ -1,90 +1,122 @@
 // petController.js
 // Import pet model
-Pet = require('../model/petModel');
+let petRepository = require('../repository/pet.repositoty');
+let applicationReposity = require('../repository/application.repository') 
 // Handle index actions
 exports.index = function (req, res) {
-    Pet.get(function (err, pet) {
+    petRepository.findAll().exec( (err, pets) => {
         if (err) {
-            res.json({
-                status: "error",
-                message: err,
+            res.status(500).json({
+                ok: false,
+                message: 'Error buscando mascotas',
+                errors: err
             });
         }
-        res.json({
-            status: "success",
-            message: "Pets retrieved successfully",
-            data: pet
-        });
+        petRepository.getTotal().then(data =>
+        res.status(200).json({
+            ok: true,
+            pets: pets,
+            total: data
+        }));
     });
 };
-// Handle create pet actions
-exports.new = function (req, res) {
-    var pet = new Pet();
-    pet.name = req.body.name ? req.body.name : pet.name;
-    pet.gender = req.body.gender;
-    pet.date_of_birth = req.body.date_of_birth;
-    pet.castrate = req.body.castrate;
-    pet.vaccines = [];
-    pet.code = req.body.code;
-    pet.milestones = [];
-    pet.medical_story = [];
-    pet.experience = 0;
-    pet.level = 0;
-// save the pet and check for errors
-    pet.save(function (err) {
-        // if (err)
-        //     res.json(err);
-res.json({
-            message: 'New pet created!',
-            data: pet
-        });
-    });
-};
+
 // Handle view pet info
-exports.view = function (req, res) {
-    Pet.findById(req.params.pet_id, function (err, pet) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'Pet details loading..',
-            data: pet
-        });
-    });
-};
+exports.findOne= function(req,res) {
+    petRepository.findById(req.params.id).then(data => {
+        if(data == null){
+            return res.status(400).json({
+                ok:false,
+                message: ' La mascota con el id' + req.params.id + 'no existe',
+                errors: { message: ' No existe una mascota con ese ID'}
+            })
+        }
+        res.status(200).json({
+            ok:true,
+            pet : data
+        }
+        )}).catch(err => 
+            res.status(400).json({
+                ok: false,
+                message : 'Error al buscar mascota',
+                errors : err
+            })
+        );
+    }
+
 // Handle update pet info
 exports.update = function (req, res) {
-Pet.findById(req.params.pet_id, function (err, pet) {
-        if (err)
-            res.send(err);
-        pet.name = req.body.name ? req.body.name : pet.name;
-        pet.gender = req.body.gender;
-        pet.date_of_birth = req.body.date_of_birth;
-        pet.castrate = req.body.castrate;
-        pet.code = req.body.code;
-        pet.experience = req.body.experience;
-        pet.level = req.body.level;
-        
-// save the pet and check for errors
-        pet.save(function (err) {
-            if (err)
-                res.json(err);
-            res.json({
-                message: 'Pet Info updated',
-                data: pet
-            });
-        });
-    });
+    petRepository.update(req.body).then(data => {
+        if(data == null){
+            return res.status(400).json({
+                ok:false,
+                message: ' La mascota con el id' + req.params.id + 'no existe',
+                errors: { message: ' No existe una mascota con ese ID'}
+            })
+        }
+        res.status(200).json({
+            ok:true,
+            pet : data
+        }
+        )}).catch(err => 
+            res.status(400).json({
+                ok: false,
+                message : 'Error al buscar mascota',
+                errors : err
+            })
+        );
 };
+
 // Handle delete pet
 exports.delete = function (req, res) {
-    Pet.remove({
-        _id: req.params.pet_id
-    }, function (err, pet) {
-        if (err)
-            res.send(err);
-res.json({
-            status: "success",
+    petRepository.remove(req.params.pet_id).then(data => {
+        res.status(200).json({
+            ok:true,
             message: 'Pet deleted'
         });
+    }).catch(err => 
+            res.status(400).json({
+                ok: false,
+                message : 'Error al eliminar la mascota',
+                errors : err
+            })
+    )
+}
+// Handle new application for pet
+exports.application = function (req, res) {
+    petRepository.findById(req.body.pet_id).then(data => {
+        if (!data)
+            return res.status(400).json({
+            ok: false,
+            message: ' La mascota con el id ' + req.body.pet_id + ' no existe',
+            });
+        applicationReposity.new(req.body).then((application) =>{
+            if(!application)
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'la aplicación no pudo ser creada',
+
+                });
+            petRepository.addApplication(data, application).then((pet) =>{
+                if(!pet)
+                return res.status(500).json({
+                    ok: false,
+                    message: 'no se pudo agregar la aplicacion a la mascota con el id' + req.body.pet_id ,
+                });
+                return res.status(200).json({
+                    ok:true,
+                    pet: pet,
+                    message: 'Aplicacion agregada'
+                });
+            }).catch(err =>
+                res.status(400).json({
+                    ok: false,
+                    message: 'error al agregar Aplicacion',
+                    errors : err
+                }
+                )
+            )
+
+        })
     });
 };
