@@ -7,6 +7,8 @@ exports.new = function (p) {
         date_of_birth : p.date_of_birth,
         castrate : p.castrate,
         vaccines : [],
+        species : p.species,
+        breed : p.breed,
         code : p.code,
         milestones : [],
         medical_story : [],
