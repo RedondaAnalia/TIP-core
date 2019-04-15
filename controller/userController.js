@@ -39,6 +39,15 @@ exports.new = function (req, res) {
 };
 // Handle view user info
 exports.view = function (req, res) {
+    User.findOne({"email": req.params.email}).populate('pets').exec( function (err, user) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'User details loading..',
+            data: user
+        });
+      
+exports.findById = function (req, res) {
   userRepository.findById(req.params.user_id, (err, user) => {
     if (err)
       res.send(err);

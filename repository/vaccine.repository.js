@@ -9,6 +9,14 @@ var vaccine = new Vaccine();
     return vaccine.save();
 }
 
-exports.findById = function (vaccine_id) {
+exports.findById =(vaccine_id) => {
     return Vaccine.findById(vaccine_id)
+}
+
+exports.findAll = ()=> {
+    return Vaccine.find();
+}
+
+exports.countAll = ()=> {
+    return Vaccine.count({});
 }
