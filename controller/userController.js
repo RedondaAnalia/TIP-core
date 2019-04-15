@@ -40,7 +40,7 @@ exports.new = function (req, res) {
 };
 // Handle view user info
 exports.view = function (req, res) {
-    User.find({"email": req.params.email}).populate('pets').exec( function (err, user) {
+    User.findOne({"email": req.params.email}).populate('pets').exec( function (err, user) {
         if (err)
             res.send(err);
         res.json({
