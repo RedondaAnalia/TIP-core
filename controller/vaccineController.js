@@ -4,7 +4,7 @@ let VaccineREpository = require('../repository/vaccine.repository');
 
 // Handle index actions
 exports.index = function (req, res) {
-    VaccineREpository.find({ }).exec( (err, vaccines) => {
+    VaccineREpository.findAll().exec( (err, vaccines) => {
         if (err) {
             res.status(500).json({
                 ok: false,
@@ -12,7 +12,7 @@ exports.index = function (req, res) {
                 errors: err
             });
         }
-        Vaccine.count({}, (error,conteo) =>
+        VaccineREpository.countAll().exec((error,conteo) =>
         res.status(200).json({
             ok: true,
             vaccines: vaccines,
