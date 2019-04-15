@@ -62,9 +62,9 @@
           "summary": "Get all users in system",
           "responses": {
             "200": {
-              "description": "OK",
+              "description": "Get all users",
               "schema": {
-                "$ref": "#/definitions/Users"
+                "$ref": "#/definitions/UserList"
               }
             }
           }
@@ -208,6 +208,19 @@
           },
           "__v": {
             "type": "number"
+          }
+        }
+      },"UserList": {
+        "required": [],
+        "properties": {
+          "ok": "boolean",
+          "message": "New user created!",
+          "data": {
+            "type" : "array",
+            "$ref": "#/definitions/UsersT"
+            },
+          "total":{
+            "type": "number"         
           }
         }
       }
