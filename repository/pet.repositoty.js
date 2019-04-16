@@ -44,7 +44,7 @@ exports.update = function (p) {
 };
 
 exports.remove = function (pet_id) {
-  return pet.remove(pet_id);
+  return Pet.remove(pet_id);
 };
 
 exports.findAll = () => {

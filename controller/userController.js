@@ -22,7 +22,7 @@ exports.index = function (req, res) {
 };
 // Handle create user actions
 exports.new = function (req, res) {
-  userRepository.new(req).then(user => {
+  userRepository.new(req.body).then(user => {
     res.json({
       message: 'New user created!',
       data: user
@@ -39,14 +39,16 @@ exports.new = function (req, res) {
 };
 // Handle view user info
 exports.view = function (req, res) {
-    User.findOne({"email": req.params.email}).populate('pets').exec( function (err, user) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'User details loading..',
-            data: user
-        });
-      
+  userRepository.findByEmail(req.params.email).exec((err, user) => {
+    if (err)
+      res.send(err);
+    res.json({
+      message: 'User details loading..',
+      data: user
+    });
+  });
+};
+
 exports.findById = function (req, res) {
   userRepository.findById(req.params.user_id, (err, user) => {
     if (err)
@@ -57,6 +59,7 @@ exports.findById = function (req, res) {
     });
   });
 };
+
 // Handle update user info
 exports.update = function (req, res) {
   userRepository.update(res.body).then(user => {
@@ -82,49 +85,48 @@ exports.update = function (req, res) {
 };
 
 exports.newPet = (req, res) => {
-  User.findById(req.body.user_id, (err, user) => {
-    if (err)
-      return res.status(500).json({
-        ok: false,
-        error: err,
-        message: 'error buscando al usuario'
-      });
+  userRepository.findById(req.body.user_id).then((user) => {
     if (!user) {
       return res.status(401).json({
         ok: false,
-        error: err,
         message: `no existe usuario con ese ID: ${  req.body.user_id}`
       });
     }   
     petRepository.new(req.body.pet).then((pet) => {
       user.pets.push(pet);
-      user.save((err, user) => {
-        if (err)
-          return res.status(400).json({
-            ok:false,
-            message: 'error al agregar mascota',
-            errors: err
-          });
+      petRepository.update(user).then((user) => {
         return res.status(200).json({
           ok:true,
           user
+        });    
+      }).catch(err => {
+        return res.status(400).json({
+          ok:false,
+          message: 'error al agregar mascota',
+          errors: err
         });
       });
-    }
-    );
-  });
-};
-
-// Handle delete user
-exports.delete = function (req, res) {
-  User.remove({
-    _id: req.params.user_id
-  }, (err, user) => {
-    if (err)
-      res.send(err);
-    res.json({
-      status: 'success',
-      message: 'User deleted'
+    }).catch(err => {
+      return res.status(500).json({
+        ok: false,
+        error: err,
+        message: 'error buscando al usuario'
+      });
     });
   });
+};
+// Handle delete user
+exports.delete = function (req, res) {
+  userRepository.remove(req.params.user_id).then(() => {
+    res.status(200).json({
+      ok:true,
+      message: 'user deleted'
+    });
+  }).catch(err => 
+    res.status(400).json({
+      ok: false,
+      message : 'Error al eliminar el usuario',
+      errors : err
+    })
+  );
 };
