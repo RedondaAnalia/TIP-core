@@ -19,7 +19,7 @@ exports.new = (u) => {
 };
 
 exports.findById = (id) => {
-  return User.findById(id);
+  return User.findById({id});
 };
 
 exports.update = (u) => {
@@ -40,12 +40,13 @@ exports.update = (u) => {
 };
 
 exports.findByEmail = (email) => {
-  return User.findOne(email).populate('pets');
+  return User.findOne({email: email}).populate('pets');
 }
 
 exports.addPet= (user_id,pet) => {
   let userFound;
-  return this.findById(user_id).then((user) => {
+  return this.findById(user_id)
+  .then((user) => {
     if (!user){
       throw "User Exception: User not found";  
     }
