@@ -1,4 +1,5 @@
 const User = require('../model/userModel');
+const petRepository = require ('../repository/pet.repositoty');
 
 exports.findAll = () => {
   return User.find({ }, '').populate('pets');
@@ -40,4 +41,21 @@ exports.update = (u) => {
 
 exports.findByEmail = (email) => {
   return User.findOne(email).populate('pets');
+}
+
+exports.addPet= (user_id,pet) => {
+  let userFound;
+  return this.findById(user_id).then((user) => {
+    if (!user){
+      throw "User Exception: User not found";  
+    }
+    userFound=user;
+    return petRepository.new(pet)
+  })
+  .then(pet=>{
+    userFound.pets.push(pet);
+  })
+  .then(user=>{
+    return User.update(userFound)
+  })
 }
