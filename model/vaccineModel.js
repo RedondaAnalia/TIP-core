@@ -1,12 +1,12 @@
 // vaccinetModel.js
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 // Setup schema
-var vaccineSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    code: Number,
+const vaccineSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  code: Number,
 });
 // Export Vaccine model
 module.exports = mongoose.model('Vaccine', vaccineSchema);
