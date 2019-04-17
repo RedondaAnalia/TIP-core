@@ -1,79 +1,87 @@
 // vaccineController.js
 // Import vaccine model
-let VaccineREpository = require('../repository/vaccine.repository');
+const VaccineRepository = require('../repository/vaccine.repository');
 
 // Handle index actions
 exports.index = function (req, res) {
-    VaccineREpository.find({ }).exec( (err, vaccines) => {
-        if (err) {
-            res.status(500).json({
-                ok: false,
-                message: 'Error buscando vacunas',
-                errors: err
-            });
-        }
-        Vaccine.count({}, (error,conteo) =>
-        res.status(200).json({
-            ok: true,
-            vaccines: vaccines,
-            total: conteo
-        }));
-    });
+  VaccineRepository.findAll().exec((err, vaccines) => {
+    if (err) {
+      res.status(500).json({
+        ok: false,
+        message: 'Error buscando vacunas',
+        errors: err
+      });
+    }
+    VaccineRepository.countAll().exec((error,conteo) =>
+      res.status(200).json({
+        ok: true,
+        vaccines,
+        total: conteo
+      }));
+  });
 };
+
 // Handle create vaccine actions
 exports.new = function (req, res) {
-    VaccineREpository.new(req.body).then(data => 
+  VaccineRepository.new(req.body).then(data => 
     res.status(200).json({
-        ok:true,
-        vaccine : data
+      ok:true,
+      vaccine : data
     })).catch(err => 
-        res.status(400).json({
-            ok: false,
-            errors : err
-        })
-    );
-    
+    res.status(400).json({
+      ok: false,
+      errors : err
+    })
+  );
 };
+
 // Handle view vaccine info
 exports.view = function (req, res) {
-    User.findById(req.params.user_id, function (err, vaccine) {
-        if (err)
-            res.send(err);
-        res.json({
-            message: 'Vaccine details loading..',
-            data: vaccine
-        });
+  VaccineRepository.findById(req.params.vaccine_id).then(vaccine => {
+    res.json({
+      message: 'Vaccine details loading..',
+      data: vaccine
+    }).catch(err => {
+      res.send(err);
     });
+  });
 };
+
 // Handle update vaccine info
 exports.update = function (req, res) {
-User.findById(req.params.vaccine_id, function (err, vaccine) {
-        if (err)
-            res.send(err);
-vaccine.name = req.body.name ? req.body.name : vaccine.name;
-        vaccine.code = req.body.code;
-// save the vaccine and check for errors
-        vaccine.save(function (err, vaccine) {
-            if (err)
-                return res.json(err);
-            res.json({
-                message: 'Vaccine Info updated',
-                data: vaccine
-            });
-        });
+  VaccineRepository.update(req.body).then(data => {
+    if (data == null) {
+      return res.status(400).json({
+        ok:false,
+        message: ` La vacuna con el id${ req.body._id } no existe`,
+        errors: { message: ' No existe una vacuna con ese ID'}
+      });
+    }
+    res.status(200).json({
+      ok:true,
+      pet : data
     });
+  }).catch(err => 
+    res.status(400).json({
+      ok: false,
+      message : 'Error al buscar vacuna',
+      errors : err
+    })
+  );
 };
 
 // Handle delete vaccine
 exports.delete = function (req, res) {
-    Vaccine.remove({
-        _id: req.params.vaccine_id
-    }, function (err, vaccine) {
-        if (err)
-            res.send(err);
-    res.json({
-            status: "success",
-            message: 'Vaccine deleted'
-        });
+  VaccineRepository.remove(req.params.vaccine_id).then(() => {
+    res.status(200).json({
+      ok:true,
+      message: 'Vaccine deleted'
     });
+  }).catch(err => 
+    res.status(400).json({
+      ok: false,
+      message : 'Error al eliminar la vacuna',
+      errors : err
+    })
+  );
 };
