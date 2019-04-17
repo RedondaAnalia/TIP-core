@@ -11,7 +11,10 @@
 
   },
   "engines": {
-    "node": "8.15.1"
+    "node": "8.15.1",    
+    "npm": "6.9.0"
+
+
   },
   "repository": {
     "type": "git",
