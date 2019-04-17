@@ -10,6 +10,9 @@
     "heroku-postbuild": "ng build --prod"
 
   },
+  "engines": {
+    "node": "8.15.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RedondaAnalia/TIP-core.git"
