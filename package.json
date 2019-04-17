@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "mocha ./tests/* "
+    "test": "mocha ./tests/* ",
+    "build": "webpack",
+    "heroku-postbuild": "ng build --prod"
+
   },
   "repository": {
     "type": "git",
