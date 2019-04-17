@@ -1,27 +1,26 @@
-var request = require('request');
-let chai = require('chai');
-let chaiHttp = require('chai-http');
+const request = require('request');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
 const expect = require('chai').expect;
 
 chai.use(chaiHttp);
 const url= 'http://localhost:3000';
 
-
-describe('TEST CONEXION API REST', function () {
-    it('Get http://localhost:3000 debe devolver mensaje de bienvenida', function(done) {
-        request(url , function(error, response, body) {
-            expect(body).to.be.equal('{"ok":true,"message":"Welcome to PetHeroes API!"}');
-            done();
-        });
+describe('TEST CONEXION API REST', () => {
+  it('Get http://localhost:3000 debe devolver mensaje de bienvenida', (done) => {
+    request(url , (error, response, body) => {
+      expect(body).to.be.equal('{"ok":true,"message":"Welcome to PetHeroes API!"}');
+      done();
     });
+  });
 
-    it('Get http://localhost:3000 debe responder estado 200', function(done) {
-        request(url, function(error, response, body) {
-            expect(response.statusCode).to.be.equal(200);
-            done();
-        });
+  it('Get http://localhost:3000 debe responder estado 200', (done) => {
+    request(url, (error, response) => {
+      expect(response.statusCode).to.be.equal(200);
+      done();
     });
-})
+  });
+});
 
 /*
 describe('USER MODE CONECTION', () => {
