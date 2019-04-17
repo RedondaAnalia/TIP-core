@@ -1,12 +1,8 @@
 // userController.js
 // Import user model
-<<<<<<< HEAD
+
 const userRepository = require('../repository/user.repository');
-=======
-let User = require('../model/userModel');
-let userRepository = require('../repository/user.repository')
-let petRepository = require('../repository/pet.repositoty')
->>>>>>> master
+
 // Handle index actions
 exports.index = function (req, res) {
     userRepository.findAll().exec( (err, users) => {
