@@ -40,23 +40,24 @@ exports.update = (u) => {
 };
 
 exports.findByEmail = (email) => {
-  return User.findOne({email: email}).populate('pets');
-}
+  return User.findOne({email}).populate('pets');
+};
 
 exports.addPet= (user_id,pet) => {
   let userFound;
   return this.findById(user_id)
-  .then((user) => {
-    if (!user){
-      throw "User Exception: User not found";  
-    }
-    userFound=user;
-    return petRepository.new(pet)
-  })
-  .then(pet=>{
-    userFound.pets.push(pet);
-  })
-  .then(user=>{
-    return User.update(userFound)
-  })
-}
+    .then((user) => {
+      if (!user) {
+        const err = new Error('User Exception: User not found');
+        throw err;
+      }
+      userFound=user;
+      return petRepository.new(pet);
+    })
+    .then(pet => {
+      userFound.pets.push(pet);
+    })
+    .then(() => {
+      return User.update(userFound);
+    });
+};

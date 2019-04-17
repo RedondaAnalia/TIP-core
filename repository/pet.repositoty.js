@@ -1,7 +1,7 @@
 const Pet = require('../model/petModel');
 
 exports.new = function (p) {
-  const pet= new Pet({
+  return new Pet({
     name : p.name,
     gender : p.gender,
     date_of_birth : p.date_of_birth,
@@ -12,8 +12,7 @@ exports.new = function (p) {
     code : p.code,
     milestones : [],
     medical_story : [],
-  })
-  return pet.save();
+  }).save();
 };
 
 exports.findById = function (id) {

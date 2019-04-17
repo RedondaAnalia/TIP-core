@@ -1,7 +1,6 @@
 // userController.js
 // Import user model
 const userRepository = require('../repository/user.repository');
-const petRepository = require('../repository/pet.repositoty');
 // Handle index actions
 exports.index = function (req, res) {
   userRepository.findAll().exec((err, users) => {
@@ -85,13 +84,13 @@ exports.update = function (req, res) {
 };
 
 exports.newPet = (req, res) => {
-  userRepository.addPet(req.body.user_id,req.body.pet).then(user =>{
-      res.status(200).json({
-        ok:true,
-        user: user
-      });
-    })
-}
+  userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
+    res.status(200).json({
+      ok:true,
+      user
+    });
+  });
+};
 
 // Handle delete user
 exports.delete = function (req, res) {
