@@ -1,9 +1,11 @@
+
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
 
+
 exports.findAll = () => {
-  return User.find({ }, '').populate('pets');
-};
+    return User.find({ }, '').populate('pets');
+}
 
 exports.countAll = () => {
   return User.count({});
@@ -61,3 +63,4 @@ exports.addPet= (user_id,pet) => {
       return User.update(userFound);
     });
 };
+
