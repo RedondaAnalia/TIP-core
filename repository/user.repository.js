@@ -17,21 +17,11 @@ exports.countAll = () => {
 exports.new = (u) => {
   return new User({
     name : u.name,
+    img : u.img,
+    google : u.google,
     gender : u.gender,
     email : u.email,
-    password: bcrypt.hashSync(body.password, 10),
-    phone : u.phone
-  }).save();
-};
-
-exports.new = (u) => {
-  return new User({
-    name : googleUser.nombre,
-    img : googleUser.img,
-    google : true,
-    gender : u.gender,
-    email : u.email,
-    password: bcrypt.hashSync(body.password, 10),
+    password: bcrypt.hashSync(u.password, 10),
     phone : u.phone
   }).save();
 };
@@ -47,6 +37,7 @@ exports.update = (u) => {
       return null;
     user.name = u.name ? u.name : user.name;
     user.gender = u.gender ? u.gender : user.gender;
+    user.password = u.password ? bcrypt.hashSync(u.password, 10) : user.password
     user.email = u.email ? u.email : user.email;
     user.phone = u.phone ? u.phone : user.phone;
     user.pets = u.pets ? u.pets : user.pets;

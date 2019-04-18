@@ -74,7 +74,8 @@ exports.singWithGoogle = async (req, res) => {
                 });
             }
         } else {
-            userRepository.newGoogleUser(googleUser).then((user) =>{
+            googleUser.google = true;
+            userRepository.new(googleUser).then((user) =>{
                 var token= jwt.sign({ user: user }, SEED , { expiresIn: 14400 } ); //4 horas
                 user.password = ' :) '
                 res.status(200).json({

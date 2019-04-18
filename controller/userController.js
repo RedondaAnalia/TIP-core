@@ -25,6 +25,7 @@ exports.index = function (req, res) {
 exports.new = function (req, res) {
 
   userRepository.new(req.body).then(user => {
+    user.password = ':)'
     res.json({
       message: 'New user created!',
       data: user
@@ -68,6 +69,7 @@ user.name = req.body.name ? req.body.name : user.name;
         user.phone = req.body.phone;
 // save the user and check for errors
         user.save(function (err) {
+          user.password = ':)'
             if (err)
                 return res.json(err);
             res.json({
@@ -80,6 +82,7 @@ user.name = req.body.name ? req.body.name : user.name;
 
 exports.newPet = (req, res) => {
   userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
+    user.password = ':)'
     res.status(200).json({
       ok:true,
       user
