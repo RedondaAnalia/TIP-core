@@ -22,14 +22,18 @@
   },
   "homepage": "https://github.com/RedondaAnalia/TIP-core#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "express": "^4.16.4",
+    "google-auth-library": "^1.6.1",
+    "jsonwebtoken": "^8.2.2",
+    "mocha": "^6.1.4",
     "mongoose": "^5.4.20",
     "mongoose-unique-validator": "^2.0.2",
     "nodemon": "^1.18.10",
-    "swagger-ui-express": "^4.0.2",
-    "google-auth-library": "^1.6.1",
-    "jsonwebtoken": "^8.2.2",
-    "bcryptjs": "^2.4.3"
+    "request": "^2.88.0",
+    "swagger-ui-express": "^4.0.2"
   }
 }
