@@ -1,6 +1,9 @@
 
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
+var bcrypt= require('bcryptjs');
+
+
 
 
 exports.findAll = () => {
@@ -16,6 +19,19 @@ exports.new = (u) => {
     name : u.name,
     gender : u.gender,
     email : u.email,
+    password: bcrypt.hashSync(body.password, 10),
+    phone : u.phone
+  }).save();
+};
+
+exports.new = (u) => {
+  return new User({
+    name : googleUser.nombre,
+    img : googleUser.img,
+    google : true,
+    gender : u.gender,
+    email : u.email,
+    password: bcrypt.hashSync(body.password, 10),
     phone : u.phone
   }).save();
 };

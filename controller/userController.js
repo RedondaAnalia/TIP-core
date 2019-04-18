@@ -101,5 +101,4 @@ exports.delete = function (req, res) {
       errors : err
     })
   );
-
 };

@@ -35,11 +35,13 @@ mongoose.connection.openUri('mongodb://localhost:27017/petHeroesDB',
 let applicationRoutes = require("./api-route/application-routes")
 let vaccineRoutes = require("./api-route/vaccine-routes")
 let userRoutes = require("./api-route/user-routes")
+let loginRoutes = require("./api-route/login-routes")
 let petRoutes = require("./api-route/pet-routes")
 let appRoutes = require('./api-route/app')
 
 app.use('/applications', applicationRoutes);
 app.use('/vaccine', vaccineRoutes);
+app.use('/login', loginRoutes);
 app.use('/users', userRoutes);
 app.use('/pets', petRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
