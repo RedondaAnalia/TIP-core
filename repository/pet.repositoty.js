@@ -64,6 +64,12 @@ exports.addApplication = ((p, a) => {
     return p.save()
 });
 
+exports.addMedicalCard = ((p, mc) => {
+    p.medical_story.push(mc)
+    return p.save()
+});
+
+
 exports.getTotal = () => {
     return Pet.count({})
 } 

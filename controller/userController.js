@@ -27,10 +27,17 @@ exports.new = function (req, res) {
   userRepository.new(req.body).then(user => {
     user.password = ':)'
     res.json({
+      ok : true,
       message: 'New user created!',
       data: user
     });
-  });
+  }).catch( err =>{
+    res.status(412).json({
+      ok: false,
+      message: 'New user create failed!',
+      data: err
+    });
+  })
 }
 
 // Handle view user info
@@ -60,24 +67,25 @@ exports.findById = function (req, res) {
 
 // Handle update user info
 exports.update = function (req, res) {
-User.findById(req.params.user_id, function (err, user) {
-        if (err)
-            res.send(err);
-user.name = req.body.name ? req.body.name : user.name;
-        user.gender = req.body.gender;
-        user.email = req.body.email;
-        user.phone = req.body.phone;
-// save the user and check for errors
-        user.save(function (err) {
-          user.password = ':)'
-            if (err)
-                return res.json(err);
-            res.json({
-                message: 'User Info updated',
-                data: user
-            });
-        });
+User.update(req.body).then(user => {
+  if (!user){
+    return res.status(400).json({
+      ok: false,
+      message : 'No se encontro el usuario',
     });
+  }
+  user.password = ':)';
+    res.json({
+        message: 'User Info updated',
+        data: user
+    });
+  }).catch(err => {
+    res.status(400).json({
+      ok: false,
+      message : 'Error al actualizar el usuario',
+      errors : err
+    })
+  });
 };
 
 exports.newPet = (req, res) => {
