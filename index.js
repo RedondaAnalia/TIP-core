@@ -53,7 +53,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', appRoutes);
 
 //Designacion de puerto por donde escucha la app.
-app.listen(PORT, ()=> {
+
+
+app.listen(process.env.PORT || PORT ||5000, ()=> {
     console.log("hola")
     console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online')
 });
