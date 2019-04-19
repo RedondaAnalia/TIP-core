@@ -82,6 +82,46 @@ exports.delete = function (req, res) {
             })
     )
 }
+
+
+exports.medicalCard = function (req, res) {
+    petRepository.findById(req.body.pet_id).then(pet => {
+        if (!pet)
+            return res.status(400).json({
+            ok: false,
+            message: ' La mascota con el id ' + req.body.pet_id + ' no existe',
+            });
+        medicalCardRepository.new(req.body).then((mc) =>{
+            if(!mc)
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'la historia clinica no pudo ser creada',
+
+                });
+            petRepository.addMedicalCard(pet, mc).then((pet_with_mc) =>{
+                if(!pet_with_mc)
+                return res.status(500).json({
+                    ok: false,
+                    message: 'no se pudo agregar la historia clinica a la mascota con el id' + req.body.pet_id ,
+                });
+                return res.status(200).json({
+                    ok:true,
+                    pet: pet_with_mc,
+                    message: 'Historia clinica agregada'
+                });
+            }).catch(err =>
+                res.status(400).json({
+                    ok: false,
+                    message: 'error al agregar Historia clinica',
+                    errors : err
+                }
+                )
+            )
+
+        })
+    });
+};
+
 // Handle new application for pet
 exports.application = function (req, res) {
     petRepository.findById(req.body.pet_id).then(data => {

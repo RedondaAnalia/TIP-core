@@ -4,7 +4,7 @@ const app = express();
 const petController = require('../controller/petController');
 // PET routes
 app.put('/',petController.update)
-  .post('/application',petController.application)
+  .post('/application',mdAutentication.verificaToken,mdAutorization.onlyVeterinaries ,petController.application)
   .get('/:id', petController.findOne)
   .get('/', petController.index);
 //    .put('/application', petController.updateApplication);
