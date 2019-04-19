@@ -10,9 +10,6 @@ const mongoose = require('mongoose');
 const variables_env = require('./config/config-module.js').config()
 
 const PORT = variables_env.PORT;
-const MONGOHOST = variables_env.MONGOHOST;
-const MONGOPORT = variables_env.MONGOPORT;
-const DATABASENAME = variables_env.DATABASENAME
 
 
 app.use(bodyParser.urlencoded({
@@ -29,14 +26,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 //Conexion con BBDD
-mongoose.connection.openUri(`mongodb://${MONGOHOST}:${MONGOPORT}/${DATABASENAME}`,
+mongoose.connection.openUri(variables_env.MONGOURI,
         (err,res) => {
                 if ( err ) throw err;
                 console.log('BBDD: \x1b[32m%s\x1b[0m', 'online');
         }
 );
+
 
 //Definicion de rutas.
 //app.use('/users', userRoutes);
