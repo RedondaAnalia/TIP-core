@@ -1,11 +1,16 @@
-let express = require('express');
-let app = express();
-var swaggerUi = require('swagger-ui-express'),
+const express = require('express');
+const app = express();
+const swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
 //Se agregan parsers para API
-let bodyParser = require('body-parser');
-let mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const variables_env = require('./config/config-module.js').config()
+
+const PORT = variables_env.PORT;
+
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -21,14 +26,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 //Conexion con BBDD
-mongoose.connection.openUri('mongodb://localhost:27017/petHeroesDB',
+mongoose.connection.openUri(variables_env.MONGOURI,
         (err,res) => {
                 if ( err ) throw err;
                 console.log('BBDD: \x1b[32m%s\x1b[0m', 'online');
         }
 );
+
 
 //Definicion de rutas.
 //app.use('/users', userRoutes);
@@ -48,6 +53,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', appRoutes);
 
 //Designacion de puerto por donde escucha la app.
-app.listen(3000, ()=> {
-    console.log('Express Server puerto 3000: \x1b[32m%s\x1b[0m', 'online')
+app.listen(PORT, ()=> {
+    console.log("hola")
+    console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online')
 });

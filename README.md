@@ -28,9 +28,33 @@ que instalara todas las dependencias y luego recomendamos instalar
 ```
 npm install -g nodemon
 ```
-para iniciar el servidor
+
+para iniciar el servidor existen varios entornos los cuales se pueden acceder con...
+
+development:
 ```
-nodemon index
+npm start
+```
+o 
+```
+npm run start:dev
+```
+produccion:
+```
+npm run start:prod
+```
+Heroku:
+```
+npm run start:hero
+```
+Travis:
+```
+npm run start:travis
+```
+
+Para correr los test 
+```
+npm test
 ```
 
 ## API
