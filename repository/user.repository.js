@@ -31,7 +31,7 @@ exports.findById = (id) => {
 };
 
 exports.update = (u) => {
-  this.findById(u._id).then((user) => {
+  this.findByEmail(u.email).then((user) => {
     console.log(user);
     if (!user)
       return null;

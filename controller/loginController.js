@@ -114,9 +114,8 @@ exports.sing = (req, res) => {
                 errors: err
             });
         }
-
         if( !bcrypt.compareSync( body.password, usuarioDB.password ) ){
-            return  res.status(400).json({
+            return  res.status(401).json({
                 ok: false,
                 mensaje: 'Credenciales incorrectas - password',
                 errors: err

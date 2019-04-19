@@ -6,9 +6,10 @@
   "scripts": {
     "start": "nodemon index.js",
     "start:dev": "NODE_ENV=development nodemon index.js",
-    "start:prod":"NODE_ENV=production nodemon index.js",
-    "start:hero":"NODE_ENV=heroku nodemon index.js",
-    "start:travis":"NODE_ENV=travis nodemon index.js",
+    "start:prod": "NODE_ENV=production nodemon index.js",
+    "start:hero": "NODE_ENV=heroku nodemon index.js",
+    "start:test": "NODE_ENV=test nodemon index.js",
+    "start:travis": "NODE_ENV=travis nodemon index.js",
     "test": "NODE_ENV=test mocha ./tests/* "
   },
   "engines": {

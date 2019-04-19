@@ -2,82 +2,109 @@ const request = require('request');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = require('chai').expect;
-const should = require('should')
-
-const sampleUser = {
-    username: username,
-    password: password
-}
-
+const variables_env = require('../config/config-module.js').config()
+const mongoose = require('mongoose');
+let should = chai.should();
 
 chai.use(chaiHttp);
-const url= 'http://localhost:3000';
+
+
+const url= variables_env.SERVERURL;
 
 before('set up test-environment',function(){
-  //connect to test-database
-  //create collections
-  //done();
-  })
-  
-  beforeEach('drop and create test data',function(){
-  //wipe out all data in collections
-  //create test-data entries in collections
-  })
-
-
-describe('Model User', function () {
-    it('add user', function (done) {
-        should(sampleUser).have.property('username', username);
-        User.saveUser(sampleUser, (error, user) => {
-            should.not.exist(error);
-            should.exist(user);
-            should(user).have.property('username', username);
-            should(user).have.property('password', password);
-            done()
-        });
-    });
-    /*
-    define more testcases
-    */
-})
-
+  mongoose.connect(variables_env.MONGOURI, function(){
+    mongoose.connection.db.dropDatabase(function(){
+    })    
+  });
+});
 
 describe('TEST CONEXION API REST', () => {
-  it('Get http://localhost:3000 debe devolver mensaje de bienvenida', (done) => {
+  it('Get http://localhost:3000 debe devolver mensaje de bienvenida', () => {
     request(url , (error, response, body) => {
       expect(body).to.be.equal('{"ok":true,"message":"Welcome to PetHeroes API!"}');
-      done();
     });
   });
 
-  it('Get http://localhost:3000 debe responder estado 200', (done) => {
+  it(`Get ${url} debe responder estado 200`, () => {
     request(url, (error, response) => {
       expect(response.statusCode).to.be.equal(200);
-      done();
     });
   });
 });
 
-/*
-describe('USER MODE CONECTION', () => {
 
-    it('create a user and get him', (done) => {
-        chai.request(url)
-            .post('/users')
-            .send(
-                {
-                    name   : "pablo",
-                    email  : "saba@mail.com",
-                    phone  : 654321,
-                    gender : "Male"
-                  }
-            )
-            .end( function(err,res){
-                console.log(res.body)
-                expect(res).to.have.status(200);
-                done();
-            });
-    });
+describe('Un usuario se da de alta en la url : ${url}', () => {
 
-});
-*/
+  
+  it('deberia retornar esta 200', (done) => {
+    chai.request(url)
+    .post('users')
+    .send(
+        {
+            name   : "pablo",
+            email  : "saba@mail.com",
+            password : "pablosaba123",
+            phone  : 654321,
+            gender : "Male"
+          }
+    ).end( function(err,res){
+      res.should.have.status(200);
+      res.body.message.should.have.equal("New user created!");
+      res.body.should.be.a('object');
+      res.body.data.name.should.have.equal('pablo');
+      res.body.data.password.should.have.not.equal('pablosaba123');
+      done();
+
+  });
+  });
+  
+  it('deberia retornar esta 412', (done) => {
+    chai.request(url)
+    .post('users')
+    .send(
+        {
+            name   : "saba",
+            email  : "saba@mail.com",
+            password : "saba4432",
+            phone  : 654321,
+            gender : "Male"
+          }
+    ).end( function(err,res){
+      res.should.have.status(412);
+      done();
+
+  });
+  });
+
+  it('no se logio y quiso cambiar su numero de telefono', (done) => {
+    
+    chai.request(url)
+    .put('users')
+    .send(
+        {  
+            email  : "saba@mail.com",
+            phone  : 1111111,
+            gender : "Male"
+          }
+    ).end( function(err,res){
+      res.should.have.status(401);
+      done();
+
+  });
+  });
+
+  it('se logio ', (done) => {
+
+    chai.request(url)
+    .post('login')
+    .send(
+        {  
+          email : "saba@mail.com",
+          password : "pablosaba123"
+          }
+    ).end( function(err,res){
+      res.should.have.status(200);
+      done()
+  });
+})
+})
