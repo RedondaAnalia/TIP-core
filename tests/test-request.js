@@ -12,14 +12,14 @@ chai.use(chaiHttp);
 const url= variables_env.SERVERURL;
 
 before('set up test-environment',function(){
-  mongoose.connect(variables_env.MONGOURI, function(){
+  mongoose.connect(variables_env.MONGURI, function(){
     mongoose.connection.db.dropDatabase(function(){
     })    
   });
 });
 
 describe('TEST CONEXION API REST', () => {
-  it('Get http://localhost:3000 debe devolver mensaje de bienvenida', () => {
+  it(`Get ${url}  debe devolver mensaje de bienvenida`, () => {
     request(url , (error, response, body) => {
       expect(body).to.be.equal('{"ok":true,"message":"Welcome to PetHeroes API!"}');
     });
