@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express(); 
-
+var mdAutentication = require ('../middlewares/autentification');
+var mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
 // PET routes
 app.put('/',petController.update)

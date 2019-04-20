@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
 });
 
 //Conexion con BBDD
-mongoose.connection.openUri(variables_env.MONGOURI,
+mongoose.connection.openUri(variables_env.MONGURI,
         (err,res) => {
                 if ( err ) throw err;
                 console.log('BBDD: \x1b[32m%s\x1b[0m', 'online');
