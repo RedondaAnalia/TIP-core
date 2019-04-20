@@ -10,7 +10,8 @@
     "start:hero": "NODE_ENV=heroku nodemon index.js",
     "start:test": "NODE_ENV=test nodemon index.js",
     "start:travis": "NODE_ENV=travis nodemon index.js",
-    "test": "NODE_ENV=test nodemon --watch . --exec  'mocha ./tests/* || true '"
+    "test": "NODE_ENV=test mocha ./tests/*",
+    "test-watch": "nodemon index.js --exec 'npm test'"
   },
   "engines": {
     "node": "8.15.1",
