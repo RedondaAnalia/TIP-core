@@ -55,6 +55,6 @@ app.use('/', appRoutes);
 //Designacion de puerto por donde escucha la app.
 
 
-app.listen(process.env.PORT || PORT ||5000, ()=> {
+module.exports = app.listen(process.env.PORT || PORT ||5000, ()=> {
     console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online')
 });
