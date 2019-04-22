@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
 });
 
 //Conexion con BBDD
-mongoose.connection.openUri(variables_env.MONGOURI,
+mongoose.connection.openUri(variables_env.MONGURI,
         (err,res) => {
                 if ( err ) throw err;
                 console.log('BBDD: \x1b[32m%s\x1b[0m', 'online');
@@ -55,7 +55,6 @@ app.use('/', appRoutes);
 //Designacion de puerto por donde escucha la app.
 
 
-app.listen(process.env.PORT || PORT ||5000, ()=> {
-    console.log("hola")
+module.exports = app.listen(process.env.PORT || PORT ||5000, ()=> {
     console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online')
 });

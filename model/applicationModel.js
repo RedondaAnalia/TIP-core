@@ -4,7 +4,11 @@ let Schema = mongoose.Schema;
 // Setup schema
 var applicationSchema = mongoose.Schema({
     
-    vaccine: { type : Schema.Types.ObjectId, ref: 'Vaccine', required: true },
+    vaccine: { 
+        type : Schema.Types.ObjectId, 
+        ref: 'Vaccine', 
+        required: true 
+    },
     code: Number,
     img: String,
     estimated_date: {
@@ -14,6 +18,14 @@ var applicationSchema = mongoose.Schema({
     application_date: {
         type: Date,
         default: null
+    },
+    veterinary_create: {
+        type : Schema.Types.ObjectId, 
+        ref: 'User'
+    },
+    veterinary_aplication: {
+        type : Schema.Types.ObjectId, 
+        ref: 'User'
     },
     create_date: {
         type: Date,
