@@ -58,6 +58,6 @@ app.use('/', appRoutes);
 
 //Designacion de puerto por donde escucha la app.
 
-module.exports = app.listen(PORT , ()=> {
-    console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online');
+module.exports = app.listen(PORT || 3000, ()=> {
+    console.log(`Express Server puerto ${PORT || 3000}: \x1b[32m%s\x1b[0m`, 'online');
 });
