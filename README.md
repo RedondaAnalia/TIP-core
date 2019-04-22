@@ -1,5 +1,5 @@
 # PET-HEROES (Back-End)
-
+[![Build Status](https://travis-ci.com/RedondaAnalia/TIP-core.svg?branch=master)](https://travis-ci.com/RedondaAnalia/TIP-core)
 ## Requisitos
 
 - [NodeJS](https://nodejs.org/es/)
