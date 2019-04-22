@@ -4,4 +4,4 @@ node_js:
 services:
   - mongodb
 script:
-  - npm run test-watch
+  - npm test
