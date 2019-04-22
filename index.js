@@ -14,6 +14,7 @@ var MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
 if(variables_env){
     PORT = variables_env.PORT;
     MONGURI = variables_env.MONGURI;
+    console.log('---------------->>>>>>' + PORT)
 }
 
 app.use(bodyParser.urlencoded({
