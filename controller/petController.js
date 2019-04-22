@@ -69,7 +69,7 @@ exports.update = function (req, res) {
 
 // Handle delete pet
 exports.delete = function (req, res) {
-    petRepository.remove(req.params.pet_id).then(data => {
+    petRepository.remove(req.params.pet_id).then(() => {
         res.status(200).json({
             ok:true,
             message: 'Pet deleted'

@@ -1,3 +1,5 @@
+
+/*
 const request = require('request');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -41,3 +43,5 @@ describe('user', () => {
             });
     });
 });
+
+*/
