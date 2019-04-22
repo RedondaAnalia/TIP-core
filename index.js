@@ -9,9 +9,14 @@ const mongoose = require('mongoose');
 
 const variables_env = require('./config/config-module.js').config()
 
-const PORT = variables_env.PORT || 3000;
-const MONGURI = variables_env.MONGURI || "mongodb://localhost:27017/petHeroesDB_dev"
 
+if(variables_env){
+    const PORT = variables_env.PORT;
+    const MONGURI = variables_env.MONGURI;
+}else{
+    const PORT = 3000;
+    const MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
+}
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -38,12 +43,12 @@ mongoose.connection.openUri(MONGURI,
 
 //Definicion de rutas.
 //app.use('/users', userRoutes);
-let applicationRoutes = require("./api-route/application-routes")
-let vaccineRoutes = require("./api-route/vaccine-routes")
-let userRoutes = require("./api-route/user-routes")
-let loginRoutes = require("./api-route/login-routes")
-let petRoutes = require("./api-route/pet-routes")
-let appRoutes = require('./api-route/app')
+let applicationRoutes = require("./api-route/application-routes");
+let vaccineRoutes = require("./api-route/vaccine-routes");
+let userRoutes = require("./api-route/user-routes");
+let loginRoutes = require("./api-route/login-routes");
+let petRoutes = require("./api-route/pet-routes");
+let appRoutes = require('./api-route/app');
 
 app.use('/applications', applicationRoutes);
 app.use('/vaccine', vaccineRoutes);
@@ -55,7 +60,6 @@ app.use('/', appRoutes);
 
 //Designacion de puerto por donde escucha la app.
 
-
 module.exports = app.listen(PORT , ()=> {
-    console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online')
+    console.log(`Express Server puerto ${PORT}: \x1b[32m%s\x1b[0m`, 'online');
 });
