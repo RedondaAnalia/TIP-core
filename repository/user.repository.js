@@ -18,6 +18,7 @@ exports.new = (u) => {
   return new User({
     name : u.name,
     img : u.img,
+    role : u.role
     google : u.google,
     gender : u.gender,
     email : u.email,
