@@ -1,4 +1,5 @@
 Pet = require('../model/petModel');
+medicalCardRepository = require('../repository/medical-card.repository');
 
 exports.new = function (p) {
     return new Pet({
@@ -21,7 +22,12 @@ exports.findById = function (id) {
         populate: {
           path: 'vaccine',
           model: 'Vaccine'
-        } 
+        },
+        path: 'medical_story',
+        populate:{
+            path: 'veterinary',
+            model:'Veterinary'
+        }
      });
      
 }
@@ -55,6 +61,12 @@ exports.findAll = () => {
         populate: {
           path: 'vaccine',
           model: 'Vaccine'
+        },
+        path: 'medical_story',
+        populate:{
+            path: 'veterinary',
+            model:'User',
+            select: 'name email'
         } 
      })
     }
@@ -64,9 +76,10 @@ exports.addApplication = ((p, a) => {
     return p.save()
 });
 
-exports.addMedicalCard = ((p, mc) => {
-    p.medical_story.push(mc)
-    return p.save()
+exports.addMedicalCard = ((pet_id, medicalCard) => {
+    return medicalCardRepository.new(medicalCard).then((medicalCardRecorded)=>{
+        return Pet.findOneAndUpdate({_id: pet_id}, {$addToSet: {medical_story:medicalCardRecorded}}, {new: true})
+    })
 });
 
 
