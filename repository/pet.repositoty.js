@@ -17,18 +17,22 @@ exports.new = function (p) {
 }
 
 exports.findById = function (id) {
-    return Pet.findById(id).populate({ 
-        path: 'applications',
-        populate: {
-          path: 'vaccine',
-          model: 'Vaccine'
-        },
-        path: 'medical_story',
-        populate:{
-            path: 'veterinary',
-            model:'Veterinary'
+    return Pet.findById(id).populate(
+        [{ 
+            path: 'applications',
+            populate: {
+                path: 'vaccine',
+                model: 'Vaccine'
+            }
+         },{
+            path: 'medical_story',
+            populate:{
+                path: 'veterinary',
+                model:'User',
+                select: 'name email'
+            }
         }
-     });
+    ]);
      
 }
 

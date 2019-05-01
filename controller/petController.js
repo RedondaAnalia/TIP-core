@@ -83,7 +83,7 @@ exports.delete = function (req, res) {
     )
 }
 
-
+//TODO: catchear excepciones!
 exports.addMedicalCard = function (req, res) {
     petRepository.addMedicalCard(req.body.pet_id,req.body.medicalCard).then(pet => {
         return res.status(200).json({
