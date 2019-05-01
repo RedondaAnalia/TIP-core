@@ -83,6 +83,22 @@ exports.addApplication = ((p, a) => {
 exports.addMedicalCard = ((pet_id, medicalCard) => {
     return medicalCardRepository.new(medicalCard).then((medicalCardRecorded)=>{
         return Pet.findOneAndUpdate({_id: pet_id}, {$addToSet: {medical_story:medicalCardRecorded}}, {new: true})
+                .populate(
+                    [{ 
+                        path: 'applications',
+                        populate: {
+                            path: 'vaccine',
+                            model: 'Vaccine'
+                        }
+                    },{
+                        path: 'medical_story',
+                        populate:{
+                            path: 'veterinary',
+                            model:'User',
+                            select: 'name email'
+                        }
+                    }
+                ]);
     })
 });
 
