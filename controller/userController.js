@@ -13,6 +13,7 @@ exports.index = function (req, res) {
                 errors: err
             });
         }
+        users= users.map(user=> {user.password=':)'; return user});
         userRepository.countAll().then( conteo =>
         res.status(200).json({
             ok: true,
@@ -44,23 +45,28 @@ exports.new = function (req, res) {
 exports.view = function (req, res) {
 
   userRepository.findByEmail(req.params.email).exec((err, user) => {
+
     if (err)
       res.send(err);
-    res.json({
-      message: 'User details loading..',
-      data: user
-    });
+    else {
+      user.password= ':)';
+      res.json({
+        message: 'User details loading..',
+        data: user
+      });
+    }
   });
 };
 
+//CREO QUE NO SE ESTA USANDO. VERIFICAR, SINO BORRAR.
 exports.findById = function (req, res) {
   userRepository.findById(req.params.user_id, (err, user) => {
     if (err)
       res.send(err);
+    user.password=':)';
     res.json({
       message: 'User details loading..',
       data: user
-
     });
   });
 }
@@ -89,13 +95,14 @@ User.update(req.body).then(user => {
 };
 
 exports.newPet = (req, res) => {
-  userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
-    user.password = ':)'
-    res.status(200).json({
-      ok:true,
-      user
-    });
-  });
+  userRepository.addPet(req.body.user_id,req.body.pet)
+                .then(user => {
+                            user.removeAttribute(password);
+                            res.status(200).json({
+                                            ok:true,
+                                            user
+                            });
+                });
 };
 
 // Handle delete user
