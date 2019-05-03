@@ -1,64 +1,68 @@
-// userController.js
-// Import user model
 
 const userRepository = require('../repository/user.repository');
 
-// Handle index actions
+// PROP: Returns all users in the DB.
 exports.index = function (req, res) {
-    userRepository.findAll().exec( (err, users) => {
-        if (err) {
-            res.status(500).json({
-                ok: false,
-                message: 'Error buscando usuarios',
-                errors: err
-            });
-        }
-        users= users.map(user=> {user.password=':)'; return user});
-        userRepository.countAll().then( conteo =>
-        res.status(200).json({
-            ok: true,
-            users: users,
-            total: conteo
-        }));
-    });
+    userRepository.findAll()
+                  .then(users => {
+                              users= users.map(user=> {user.password=':)'; return user});
+                              res.status(200).json({
+                                ok: true,
+                                message: 'Users found!',
+                                users: users
+                              })
+                  }).catch(err =>{
+                                res.status(500).json({
+                                  ok: false,
+                                  message: 'Error finding users!',
+                                  err
+                                })
+                  });
 };
-// Handle create user actions
+
+
+// PROP: Creates a new user in the DB
 exports.new = function (req, res) {
-
-  userRepository.new(req.body).then(user => {
-    user.password = ':)'
-    res.json({
-      ok : true,
-      message: 'New user created!',
-      data: user
-    });
-  }).catch( err =>{
-    res.status(412).json({
-      ok: false,
-      message: 'New user create failed!',
-      data: err
-    });
-  })
-}
-
-// Handle view user info
-exports.view = function (req, res) {
-
-  userRepository.findByEmail(req.params.email).exec((err, user) => {
-
-    if (err)
-      res.send(err);
-    else {
-      user.password= ':)';
-      res.json({
-        message: 'User details loading..',
-        data: user
-      });
-    }
-  });
+    userRepository.new(req.body)
+                  .then(user => {
+                              user.password = ':)'
+                              res.status(200).json({
+                                ok : true,
+                                message: 'New user created!',
+                                data: user
+                              });
+                  }).catch(err =>{
+                                res.status(412).json({
+                                  ok: false,
+                                  message: 'Error creating new user!',
+                                  err
+                                });
+                  });
 };
 
-//CREO QUE NO SE ESTA USANDO. VERIFICAR, SINO BORRAR.
+
+// PROP: Returns the corresponding user to the mail that arrives by parameter.
+exports.view = function (req, res) {
+  userRepository.findByEmail(req.params.email)
+                .then( user => {
+                            user.password= ':)';
+                            res.status(200).json({
+                              ok:true,
+                              message: 'User found!',
+                              data: user
+                            });
+                }).catch(err=>{
+                            res.status(404).json({
+                              ok:false,
+                              message: 'Error finding user',
+                              err
+                          });
+                });
+};
+
+
+//CREO QUE NO SE ESTA USANDO. VERIFICAR. SI SE ESTA USANDO, REFACTOREAR. SINO BORRAR.
+//PROP: Returns the corresponding user to the ID that arrives by parameter
 exports.findById = function (req, res) {
   userRepository.findById(req.params.user_id, (err, user) => {
     if (err)
@@ -71,6 +75,7 @@ exports.findById = function (req, res) {
   });
 }
 
+// FIXME: ESTOS UPDATES EN FUTURO VAN A SER MAS ESPECIFICOS. QUEDAN PARA NO ROMPER NADA.
 // Handle update user info
 exports.update = function (req, res) {
 User.update(req.body).then(user => {
@@ -102,6 +107,11 @@ exports.newPet = (req, res) => {
                                             ok:true,
                                             user
                             });
+                }).catch(err =>{
+                            return res.status(412).json({
+                              ok:false,
+                              message: 'Error al '
+                            })
                 });
 };
 
