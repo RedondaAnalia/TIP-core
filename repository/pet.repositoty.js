@@ -1,5 +1,6 @@
 Pet = require('../model/petModel');
 medicalCardRepository = require('../repository/medical-card.repository');
+applicationRepository = require('../repository/application.repository');
 
 exports.new = function (p) {
     return new Pet({
@@ -60,24 +61,41 @@ exports.remove = function (pet_id) {
 
 
 exports.findAll = () => {
-    return Pet.find({ }, '').populate({ 
+    return Pet.find({ }, '').populate([{ 
         path: 'applications',
         populate: {
           path: 'vaccine',
           model: 'Vaccine'
-        },
+        }},{
         path: 'medical_story',
         populate:{
             path: 'veterinary',
             model:'User',
             select: 'name email'
         } 
-     })
+     }])
     }
 
-exports.addApplication = ((p, a) => {
-    p.applications.push(a)
-    return p.save()
+exports.addApplication = ((pet_id, applicationData) => {
+    return applicationRepository.new(applicationData).then((applicationRecorded)=>{
+        return Pet.findOneAndUpdate({_id: pet_id}, {$addToSet: {applications:applicationRecorded}}, {new: true})
+                .populate(
+                    [{ 
+                        path: 'applications',
+                        populate: {
+                            path: 'vaccine',
+                            model: 'Vaccine'
+                        }
+                    },{
+                        path: 'medical_story',
+                        populate:{
+                            path: 'veterinary',
+                            model:'User',
+                            select: 'name email'
+                        }
+                    }
+                ]);
+    })
 });
 
 exports.addMedicalCard = ((pet_id, medicalCard) => {

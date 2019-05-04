@@ -1,9 +1,6 @@
-
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
 var bcrypt= require('bcryptjs');
-
-
 
 
 exports.findAll = () => {
@@ -54,8 +51,9 @@ exports.findByEmail = (email) => {
 };
 
 exports.addPet= (user_id,pet) => {  
-  return petRepository.new(pet).then((res)=>
-    User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}}
-))
+  return petRepository.new(pet)
+                      .then((res)=>
+                            User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}}
+                      )).catch(err => err);
 };
 

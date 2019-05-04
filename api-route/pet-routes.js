@@ -4,8 +4,8 @@ var mdAutentication = require ('../middlewares/autentification');
 var mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
 // PET routes
-app.put('/',petController.update)
-  .post('/application',mdAutentication.verificaToken,mdAutorization.onlyVeterinaries ,petController.application)
+//app.put('/',petController.update);
+app.post('/application',mdAutentication.verificaToken,mdAutorization.onlyVeterinaries ,petController.application)
   /* Body expected:
   {
     pet_id: String,

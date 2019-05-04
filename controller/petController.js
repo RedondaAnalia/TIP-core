@@ -1,72 +1,116 @@
-// petController.js
-// Import pet model
 let petRepository = require('../repository/pet.repositoty');
 let applicationReposity = require('../repository/application.repository') 
-// Handle index actions
-exports.index = function (req, res) {
-    petRepository.findAll().exec( (err, pets) => {
-        if (err) {
-            res.status(500).json({
-                ok: false,
-                message: 'Error buscando mascotas',
-                errors: err
-            });
-        }
-        petRepository.getTotal().then(data =>
-        res.status(200).json({
-            ok: true,
-            pets: pets,
-            total: data
-        }));
-    });
+
+
+// PROP: Returns the corresponding pet to the ID that arrives by parameter.
+exports.findOne= function(req,res) {
+    petRepository.findById(req.params.id)
+                .then(data => {
+                            res.status(200).json({
+                                ok:true,
+                                message: 'Pet found!',
+                                pet : data
+                            })
+                }).catch(err => 
+                            res.status(400).json({
+                                ok: false,
+                                message : 'Error finding Pet!',
+                                errors : err
+                            })
+                );
+}
+
+
+// PRO: Adds a Medical Card to a pet.
+exports.addMedicalCard = function (req, res) {
+    petRepository.addMedicalCard(req.body.pet_id,req.body.medicalCard)
+                .then(pet => {
+                            res.status(200).json({
+                                ok:true,
+                                msj:'Medical Card created and added successfully!',
+                                pet
+                            });
+                }).catch(err => {
+                            res.status(400).json({
+                                ok:false,
+                                message: 'Error while creating or added Medical Card',
+                                err
+                            })
+                });    
 };
 
-// Handle view pet info
-exports.findOne= function(req,res) {
-    petRepository.findById(req.params.id).then(data => {
-        if(data == null){
-            return res.status(400).json({
-                ok:false,
-                message: ' La mascota con el id' + req.params.id + 'no existe',
-                errors: { message: ' No existe una mascota con ese ID'}
-            })
-        }
-        res.status(200).json({
-            ok:true,
-            pet : data
-        }
-        )}).catch(err => 
-            res.status(400).json({
-                ok: false,
-                message : 'Error al buscar mascota',
-                errors : err
-            })
-        );
-    }
 
+// PRO: Adds an application to a pet.
+exports.application = function (req, res) {
+    petRepository.addApplication(req.body.pet_id, req.body)
+                    .then(pet => {
+                        res.status(200).json({
+                            ok:true,
+                            msj:'Application created and added successfully!',
+                            pet
+                        });
+                    }).catch(err => {
+                        res.status(400).json({
+                            ok:false,
+                            message: 'Error while creating or added Application',
+                            err
+                        })
+                    });   
+}
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------
+
+
+// NO DEBERIA ESTAR PUBLICADO!!!!!!!!!!
+// PROP: Returns all pets in the DB.
+exports.index = function (req, res) {
+    petRepository.findAll().then(pets => {
+            res.status(200).json({
+            ok: true,
+            pets: pets
+        });
+    }).catch(err=>{
+        res.status(500).json({
+            ok: false,
+            message: 'Error buscando mascotas',
+            errors: err
+        });
+    });
+
+    
+    
+    
+    
+    
+    
+    
+// ESTE UPDATE VA A DESAPARECER POR UPDATES MAS ESPECIFICOS
 // Handle update pet info
 exports.update = function (req, res) {
-    petRepository.update(req.body).then(data => {
-        if(data == null){
-            return res.status(400).json({
-                ok:false,
-                message: ' La mascota con el id' + req.params.id + 'no existe',
-                errors: { message: ' No existe una mascota con ese ID'}
-            })
-        }
-        res.status(200).json({
-            ok:true,
-            pet : data
-        }
-        )}).catch(err => 
-            res.status(400).json({
-                ok: false,
-                message : 'Error al buscar mascota',
-                errors : err
-            })
-        );
+    petRepository.update(req.body)
+                .then(data => {
+                            res.status(200).json({
+                                ok:true,
+                                message:'Pet updated!',
+                                pet : data
+                            })
+                }).catch(err => 
+                            res.status(400).json({
+                                ok: false,
+                                message : 'Error updating pet!',
+                                errors : err
+                            })
+                );
 };
 
+//ESTO NO DEBERIA ESTAR PUBLICADO!!
 // Handle delete pet
 exports.delete = function (req, res) {
     petRepository.remove(req.params.pet_id).then(() => {
@@ -82,53 +126,4 @@ exports.delete = function (req, res) {
             })
     )
 }
-
-//TODO: catchear excepciones!
-exports.addMedicalCard = function (req, res) {
-    petRepository.addMedicalCard(req.body.pet_id,req.body.medicalCard).then(pet => {
-        return res.status(200).json({
-          ok:true,
-          msj:"Historia Medica creada y agregada correctamente",
-          pet
-        });
-      });    
-};
-
-// Handle new application for pet
-exports.application = function (req, res) {
-    petRepository.findById(req.body.pet_id).then(data => {
-        if (!data)
-            return res.status(400).json({
-            ok: false,
-            message: ' La mascota con el id ' + req.body.pet_id + ' no existe',
-            });
-        applicationReposity.new(req.body).then((application) =>{
-            if(!application)
-                return res.status(500).json({
-                    ok: false,
-                    mensaje: 'la aplicación no pudo ser creada',
-
-                });
-            petRepository.addApplication(data, application).then((pet) =>{
-                if(!pet)
-                return res.status(500).json({
-                    ok: false,
-                    message: 'no se pudo agregar la aplicacion a la mascota con el id' + req.body.pet_id ,
-                });
-                return res.status(200).json({
-                    ok:true,
-                    pet: pet,
-                    message: 'Aplicacion agregada'
-                });
-            }).catch(err =>
-                res.status(400).json({
-                    ok: false,
-                    message: 'error al agregar Aplicacion',
-                    errors : err
-                }
-                )
-            )
-
-        })
-    });
 };

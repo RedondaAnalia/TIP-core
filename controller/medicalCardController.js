@@ -1,7 +1,20 @@
-// vaccineController.js
-// Import vaccine model
 const MedicalCardRepository = require('../repository/medical-card.repository');
 
+
+// Handle view vaccine info
+exports.view = function (req, res) {
+  MedicalCardRepository.findById(req.params.vaccine_id).then(mc => {
+    res.json({
+      message: 'Medical Card details loading..',
+      data: mc
+    }).catch(err => {
+      res.send(err);
+    });
+  });
+};
+
+
+//PARA QUE LO NECESITARIAMOS???
 // Handle index actions
 exports.index = function (req, res) {
   MedicalCardRepository.findAll().exec((err, mc) => {
@@ -35,17 +48,6 @@ exports.new = function (req, res) {
   );
 };
 
-// Handle view vaccine info
-exports.view = function (req, res) {
-  MedicalCardRepository.findById(req.params.vaccine_id).then(mc => {
-    res.json({
-      message: 'Medical Card details loading..',
-      data: mc
-    }).catch(err => {
-      res.send(err);
-    });
-  });
-};
 
 // Handle update vaccine info
 exports.update = function (req, res) {
