@@ -57,39 +57,6 @@ exports.application = function (req, res) {
                         })
                     });   
 }
-
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------
-
-
-// NO DEBERIA ESTAR PUBLICADO!!!!!!!!!!
-// PROP: Returns all pets in the DB.
-exports.index = function (req, res) {
-    petRepository.findAll().then(pets => {
-            res.status(200).json({
-            ok: true,
-            pets: pets
-        });
-    }).catch(err=>{
-        res.status(500).json({
-            ok: false,
-            message: 'Error buscando mascotas',
-            errors: err
-        });
-    });
-
-    
-    
-    
-    
-    
-    
     
 // ESTE UPDATE VA A DESAPARECER POR UPDATES MAS ESPECIFICOS
 // Handle update pet info
@@ -108,22 +75,4 @@ exports.update = function (req, res) {
                                 errors : err
                             })
                 );
-};
-
-//ESTO NO DEBERIA ESTAR PUBLICADO!!
-// Handle delete pet
-exports.delete = function (req, res) {
-    petRepository.remove(req.params.pet_id).then(() => {
-        res.status(200).json({
-            ok:true,
-            message: 'Pet deleted'
-        });
-    }).catch(err => 
-            res.status(400).json({
-                ok: false,
-                message : 'Error al eliminar la mascota',
-                errors : err
-            })
-    )
-}
-};
+    };

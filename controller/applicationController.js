@@ -20,24 +20,3 @@ exports.update = function (req, res) {
                                         })
                         });
 }
-
-
-
-//NO DEBERIA ESTAR PUBLICADO!
-//PRO: Returns all applications in DB
-exports.index = function (req, res) {
-    applicationRepository.findAll()
-                        .then( applications => {
-                                            res.status(200).json({
-                                                ok: true,
-                                                message: 'Applications found!',
-                                                applications
-                                            })
-                        }).catch(err =>             
-                                    res.status(500).json({
-                                        ok: false,
-                                        message: 'Error finding applications',
-                                        err
-                                    })
-                        )
-}

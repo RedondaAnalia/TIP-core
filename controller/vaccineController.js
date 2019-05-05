@@ -86,21 +86,3 @@ exports.update = function (req, res) {
     })
   );
 };
-
-
-//NO DEBERIA ESTAR PUBLICADO!
-// Handle delete vaccine
-exports.delete = function (req, res) {
-  VaccineRepository.remove(req.params.vaccine_id).then(() => {
-    res.status(200).json({
-      ok:true,
-      message: 'Vaccine deleted'
-    });
-  }).catch(err => 
-    res.status(400).json({
-      ok: false,
-      message : 'Error al eliminar la vacuna',
-      errors : err
-    })
-  );
-};

@@ -5,7 +5,7 @@ var mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
 // PET routes
 //app.put('/',petController.update);
-app.post('/application',mdAutentication.verificaToken,mdAutorization.onlyVeterinaries ,petController.application)
+app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
   /* Body expected:
   {
     pet_id: String,
@@ -19,7 +19,6 @@ app.post('/application',mdAutentication.verificaToken,mdAutorization.onlyVeterin
    */
   .post('/medicalCard', mdAutorization.onlyVeterinaries, petController.addMedicalCard)
   .get('/:id', petController.findOne)
-  .get('/', petController.index);
 //    .put('/application', petController.updateApplication);
 
 module.exports = app;

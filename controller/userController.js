@@ -109,38 +109,3 @@ exports.update = function (req, res) {
       })
     });
   };
-  
-  
-  //CREO QUE NO SE ESTA USANDO. VERIFICAR. SI SE ESTA USANDO, REFACTOREAR. SINO BORRAR.
-  //PROP: Returns the corresponding user to the ID that arrives by parameter
-  exports.findById = function (req, res) {
-    userRepository.findById(req.params.user_id, (err, user) => {
-      if (err)
-      res.send(err);
-      user.password=':)';
-      res.json({
-        message: 'User details loading..',
-        data: user
-      });
-    });
-  }
-  
-  //NO DEBERIA ESTAR PUBLICADO!!!!!!-----------------------------------------------------------------------------
-  // PROP: Returns all users in the DB.
-  exports.index = function (req, res) {
-      userRepository.findAll()
-                    .then(users => {
-                                users= users.map(user=> {user.password=':)'; return user});
-                                res.status(200).json({
-                                  ok: true,
-                                  message: 'Users found!',
-                                  users: users
-                                })
-                    }).catch(err =>{
-                                  res.status(500).json({
-                                    ok: false,
-                                    message: 'Error finding users!',
-                                    err
-                                  })
-                    });
-  };
