@@ -4,31 +4,24 @@ const Application = require('../model/applicationModel');
 const Vaccine = require('../model/vaccineModel');
 // Handle create pet actions
 exports.new = function (newApplication) {
-  return new Promise((resolve, reject) => {
-    Vaccine.findById(newApplication.vaccine_id, (err, vaccine) => {
-      if (err)
-        return reject(err);
-      if (vaccine == null) {
-        //TODO FIXME GENERAR EL ERROR DE RETORNO
-      }
-      const application = new Application({
-        vaccine,
-        code: newApplication.code,
-        img: newApplication.img,
-        estimated_date: newApplication.estimated_date,
-        application_date: newApplication.application_date,
-        create_date: newApplication.create_date
-      });
-
-      application.save((err, application) => {
-        if (err)
-          return reject(err);
-        return resolve(application);
-      });
-    });
-  });
+  return Vaccine.findOne({_id:newApplication.vaccine_id})
+                .then(vaccine => {
+                  if (!vaccine){
+                   //ERROR RETORNO 
+                  }
+                  return new Application({
+                    vaccine,
+                    code: newApplication.code,
+                    img: newApplication.img,
+                    estimated_date: newApplication.estimated_date,
+                    application_date: newApplication.application_date,
+                    create_date: newApplication.create_date
+                  }).save();  
+                }).catch(err => err)
 };
 
+
+//MAS ESPECIFICO.
 exports.update = function (req) {
   return Application.findById(req.body.application_id, (err, application) => {
     if (err)
@@ -42,6 +35,7 @@ exports.update = function (req) {
     return application.save();
   });
 };
+
 
 // Handle index actions
 exports.findAll = function () {

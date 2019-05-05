@@ -68,6 +68,30 @@
               }
             }
           }
+        },
+        "put": {
+          "summary": "Update user with give ID",
+          "tags": [
+            "Users"
+          ],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/UserU"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is updated",
+              "schema": {
+                "$ref": "#/definitions/UsersT"
+              }
+            }
+          }
         }
       },
       "/users/{userId}": {
@@ -89,13 +113,21 @@
             "200": {
               "description": "User is found",
               "schema": {
-                "$ref": "#/definitions/User"
+                "$ref": "#/definitions/UsersB"
               }
             }
           }
         },
         "delete": {
           "summary": "Delete user with given ID",
+            "securityDefinitions": {
+              "JWT": {
+                  "type": "apiKey",
+                  "description": "",
+                  "name": "Authorization",
+                  "in": "header"
+              }
+          },
           "tags": [
             "Users"
           ],
@@ -103,31 +135,35 @@
             "200": {
               "description": "User is deleted",
               "schema": {
-                "$ref": "#/definitions/User"
               }
             }
           }
-        },
-        "put": {
-          "summary": "Update user with give ID",
+        }
+      },
+      "/users/pet": {
+        "get": {
           "tags": [
             "Users"
           ],
+          "description": "Create new user in system",
           "parameters": [
             {
               "name": "user",
               "in": "body",
-              "description": "User with new values of properties",
+              "description": "User that we want to create",
               "schema": {
                 "$ref": "#/definitions/User"
               }
             }
           ],
+          "produces": [
+            "application/json"
+          ],
           "responses": {
             "200": {
-              "description": "User is updated",
+              "description": "New user is created",
               "schema": {
-                "$ref": "#/definitions/User"
+                "$ref": "#/definitions/Usern"
               }
             }
           }
@@ -138,7 +174,8 @@
       "User": {
         "required": [
           "name",
-          "email"
+          "email",
+          "password"
         ],
         "properties": {
           "name": {
@@ -149,17 +186,65 @@
             "type": "string",
             "uniqueItems": true
           },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["USER_ROLE", "VET_ROLE", "SERVICE_ROLE"]
+          },
           "phone": {
             "type": "string"
           },
           "gender": {
-            "type": "string"
+            "type": "string",
+            "enum": ["MALE", "FEMALE"]
           }
         }
       },
+      "UserU": {
+        "required": [
+          "_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["USER_ROLE", "VET_ROLE", "SERVICE_ROLE"]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": ["MALE", "FEMALE"]
+          }
+        }
+      },
+
+
       "Users": {
-        "type": "array",
-        "$ref": "#/definitions/User"
+        "properties": {
+          "ok": "boolean",
+          "users": {
+          "type": "array",
+          "$ref": "#/definitions/UsersT"
+          },
+          "total": "number"
+        }
       },
       "Usern": {
         "required": [],
@@ -170,11 +255,23 @@
           }
         }
       },
+
+      "UsersB": {
+        "required": [],
+        "properties": {
+          "message": "User details loading..",
+          "data": {
+            "$ref": "#/definitions/UsersT"
+          }
+        }
+      },
+
       "UsersT": {
         "required": [],
         "properties": {
-          "rol": {
-            "type": "string"
+          "role": {
+            "type": "string",
+            "enum": ["USER_ROLE", "VET_ROLE", "SERVICE_ROLE"]
           },
           "pets": {
             "type": "array",

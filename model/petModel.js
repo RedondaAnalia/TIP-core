@@ -44,6 +44,7 @@ petSchema.methods.findByType = function (callback) {
     User.find()
     return this.model('Book').find({ type: this.type }, callback);
 };
+
   
 
 // Export Pet model
