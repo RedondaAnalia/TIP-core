@@ -1,9 +1,6 @@
-
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
 var bcrypt= require('bcryptjs');
-
-
 
 
 exports.findAll = () => {
@@ -28,7 +25,7 @@ exports.new = (u) => {
 };
 
 exports.findById = (id) => {
-  return User.findById({id});
+  return User.findById({_id:id});
 };
 
 exports.update = (u) => {
@@ -53,22 +50,10 @@ exports.findByEmail = (email) => {
   return User.findOne({email}).populate('pets');
 };
 
-exports.addPet= (user_id,pet) => {
-  let userFound;
-  return this.findById(user_id)
-    .then((user) => {
-      if (!user) {
-        const err = new Error('User Exception: User not found');
-        throw err;
-      }
-      userFound=user;
-      return petRepository.new(pet);
-    })
-    .then(pet => {
-      userFound.pets.push(pet);
-    })
-    .then(() => {
-      return User.update(userFound);
-    });
+exports.addPet= (user_id,pet) => {  
+  return petRepository.new(pet)
+                      .then((res)=>
+                            User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}}
+                      )).catch(err => err);
 };
 

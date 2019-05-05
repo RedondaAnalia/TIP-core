@@ -5,8 +5,8 @@ var medicalCardSchema = mongoose.Schema({
     title: String,
     diagnostic: String,
     veterinary: { 
-        type : ObjectId, 
-        ref: 'Veterinary', 
+        type : mongoose.ObjectId, 
+        ref: 'User', 
         required: true
     },
     number: Number,
