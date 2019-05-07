@@ -25,8 +25,9 @@ exports.new = (u) => {
 };
 
 exports.findById = (id) => {
-  return User.findById({_id:id});
-};
+  return User.findById(id);
+}
+
 
 exports.update = (u) => {
   this.findByEmail(u.email).then((user) => {
@@ -50,10 +51,8 @@ exports.findByEmail = (email) => {
   return User.findOne({email}).populate('pets');
 };
 
-exports.addPet= (user_id,pet) => {  
-  return petRepository.new(pet)
-                      .then((res)=>
-                            User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}}
-                      )).catch(err => err);
-};
 
+exports.addPet= (user_id,pet) => {
+  return petRepository.new(pet).then((res)=>
+  User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}},{new:true}).populate('pets'))
+  }
