@@ -1,52 +1,69 @@
-// vaccineController.js
-// Import vaccine model
 const VaccineRepository = require('../repository/vaccine.repository');
 
-// Handle index actions
+
+// PRO: Returns all vaccines in DB
 exports.index = function (req, res) {
-  VaccineRepository.findAll().exec((err, vaccines) => {
-    if (err) {
-      res.status(500).json({
-        ok: false,
-        message: 'Error buscando vacunas',
-        errors: err
-      });
-    }
-    VaccineRepository.countAll().exec((error,conteo) =>
-      res.status(200).json({
-        ok: true,
-        vaccines,
-        total: conteo
-      }));
-  });
+  VaccineRepository.findAll()
+                  .then (vaccines => {
+                                  res.status(200).json({
+                                    ok: true,
+                                    message: 'Vaccines found!',
+                                    vaccines,
+                                  });
+                  }).catch( err => {
+                                  res.status(500).json({
+                                    ok: false,
+                                    message: 'Error finding vaccines!',
+                                    err
+                                  });
+                  });
 };
 
-// Handle create vaccine actions
+
+// PRO: Creates a new vaccine in DB
 exports.new = function (req, res) {
-  VaccineRepository.new(req.body).then(data => 
-    res.status(200).json({
-      ok:true,
-      vaccine : data
-    })).catch(err => 
-    res.status(400).json({
-      ok: false,
-      errors : err
-    })
-  );
+  VaccineRepository.new(req.body)
+                  .then( vaccine => { 
+                            res.status(200).json({
+                              ok: true,
+                              message: 'Vaccine added!',
+                              vaccine
+                            })
+                  }).catch( err => {
+                            res.status(400).json({
+                              ok: false,
+                              message: 'Error adding vaccine!',
+                              err    
+                            });
+                  });
 };
 
-// Handle view vaccine info
+
+// PROP: Returns the corresponding vaccine to the ID that arrives by parameter.
 exports.view = function (req, res) {
-  VaccineRepository.findById(req.params.vaccine_id).then(vaccine => {
-    res.json({
-      message: 'Vaccine details loading..',
-      data: vaccine
-    }).catch(err => {
-      res.send(err);
-    });
-  });
+  VaccineRepository.findById(req.params.vaccine_id)
+                  .then(vaccine => {
+                                  res.status(200).json({
+                                    ok: true,
+                                    message: 'Vaccine found!',
+                                    data: vaccine
+                                  })
+                  }).catch(err => {
+                                  res.status(500).json({
+                                    ok: false,
+                                    message:'Error finding vaccine'
+                                  });
+                  });
 };
 
+
+
+
+
+
+
+
+// VAN A HABER UPDATES MAS ESPECIFICOS!!!!
 // Handle update vaccine info
 exports.update = function (req, res) {
   VaccineRepository.update(req.body).then(data => {
@@ -65,22 +82,6 @@ exports.update = function (req, res) {
     res.status(400).json({
       ok: false,
       message : 'Error al buscar vacuna',
-      errors : err
-    })
-  );
-};
-
-// Handle delete vaccine
-exports.delete = function (req, res) {
-  VaccineRepository.remove(req.params.vaccine_id).then(() => {
-    res.status(200).json({
-      ok:true,
-      message: 'Vaccine deleted'
-    });
-  }).catch(err => 
-    res.status(400).json({
-      ok: false,
-      message : 'Error al eliminar la vacuna',
       errors : err
     })
   );

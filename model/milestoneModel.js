@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 // Setup schema
 var milestoneSchema = mongoose.Schema({
     name: String,
-    experience: Number,
+    points: Number,
 });
 // Export Milestone model
 module.exports = mongoose.model('Milestone', milestoneSchema);

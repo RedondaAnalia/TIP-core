@@ -1,37 +1,22 @@
-// petController.js
-// Import pet model
-let applicationReposity = require('../repository/application.repository') 
+let applicationRepository = require('../repository/application.repository') 
 
 
-exports.index = function (req, res) {
-    applicationReposity.findAll().then( applications => {
-        applicationReposity.countAll().then(conteo => {
-        res.status(200).json({
-            ok: true,
-            aplications: applications,
-            total: conteo
-        })
-    })}).catch(err =>             
-        res.status(500).json({
-        ok: false,
-        message: 'Error buscando aplicaciones',
-        errors: err
-        }))
-}
+//ESTE UPDATE DEBERIA SER MAS PUNTUAL!
+//EJ: MARCAR UNA APLICACION COMO REALIZADA.
 
 exports.update = function (req, res) {
-    applicationReposity.update(req).then((application) => {
-        res.json({
-            ok : true,
-            message: 'Application Info updated',
-            data: application
-        });
-    }).catch(err =>
-        res.status(500).json({
-            ok: false,
-            message: 'Error al updatear aplicaciones',
-            errors: err
-        }
-        )
-    )
+    applicationRepository.update(req)
+                        .then(application => {
+                                            res.status(200).json({
+                                                ok : true,
+                                                message: 'Application Info updated!',
+                                                data: application
+                                            });
+                        }).catch(err =>{
+                                        res.status(500).json({
+                                            ok: false,
+                                            message: 'Error updating applications!',
+                                            err
+                                        })
+                        });
 }
