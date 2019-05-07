@@ -95,8 +95,13 @@ exports.newPet = (req, res) => {
       ok:true,
       user
     });
-  });
-};
+  }).catch(err =>{
+    res.status(400).json({
+      ok:false,
+      error: err
+  })
+});
+}
 
 // Handle delete user
 exports.delete = function (req, res) {
