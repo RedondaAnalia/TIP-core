@@ -56,3 +56,9 @@ exports.addPet= (user_id,pet) => {
   return petRepository.new(pet).then((res)=>
   User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}},{new:true}).populate('pets applications milestones'))
   }
+
+
+exports.addMilestone= (milestone, user) => {
+  User.findOneAndUpdate({email: user}, {$addToSet: {milestones: milestone}},{new:true})
+      .populate('pets applications milestones').then(res => {return milestone})
+}
