@@ -61,6 +61,4 @@ exports.addPet= (user_id,pet) => {
 
 exports.updateImage = (user_id, image) => {
   return User.findOneAndUpdate({_id: user_id}, {$set: {'image':image}},{new:true})
-
 }
-

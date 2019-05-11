@@ -95,7 +95,25 @@ exports.delete = function (req, res) {
     })
     );
   };
-  
+
+exports.image = function (req, res) {
+    console.log(req.file)
+    userRepository.updateImage(req.body.id,req.file.path).then(user =>{
+        res.json({
+            message: 'User photo updated',
+            data: user
+        });
+    }).catch(err =>{
+        res.status(400).json({
+            ok: false,
+            message : 'Error al actualizar photo del usuario',
+            errors : err
+        })
+    })
+
+};
+
+
 // FIXME: ESTOS UPDATES EN FUTURO VAN A SER MAS ESPECIFICOS. QUEDAN PARA NO ROMPER NADA.
 // Handle update user info
 exports.update = function (req, res) {
@@ -120,21 +138,6 @@ exports.update = function (req, res) {
   };
 
 
-exports.image = function (req, res) {
-    console.log(req.file)
-    userRepository.updateImage(req.body.id,req.file.path).then(user =>{
-        res.json({
-            message: 'User photo updated',
-            data: user
-        });
-    }).catch(err =>{
-        res.status(400).json({
-            ok: false,
-            message : 'Error al actualizar photo del usuario',
-            errors : err
-        })
-    })
 
-};
 
 
