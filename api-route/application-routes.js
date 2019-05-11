@@ -8,4 +8,5 @@ var mdAutorization = require ('../middlewares/autorization');
 var applicationController = require('../controller/applicationController');
 // User routes
 app.put('/',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,applicationController.update)
+    .put('/apply',applicationController.markAsApplied)
     module.exports = app;
