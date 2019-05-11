@@ -30,7 +30,6 @@ exports.findById = (id) => {
   return User.findById(id);
 }
 
-
 exports.update = (u) => {
   this.findByEmail(u.email).then((user) => {
     console.log(user);
@@ -53,7 +52,6 @@ exports.findByEmail = (email) => {
   return User.findOne({email}).populate('pets');
 };
 
-
 exports.addPet= (user_id,pet) => {
   return petRepository.new(pet).then((res)=>
   User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}},{new:true}).populate('pets applications milestones'))
@@ -62,3 +60,9 @@ exports.addPet= (user_id,pet) => {
 exports.updateImage = (user_id, image) => {
   return User.findOneAndUpdate({_id: user_id}, {$set: {'image':image}},{new:true})
 }
+
+exports.addMilestone= (milestone, user) => {
+  User.findOneAndUpdate({email: user}, {$addToSet: {milestones: milestone}},{new:true})
+      .populate('pets applications milestones').then(res => {return milestone})
+}
+
