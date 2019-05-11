@@ -6,12 +6,16 @@ const petController = require('../controller/petController');
 const upload = require ('../middlewares/upload');
 
 // PET routes
-app
-    .post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
+
+app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
     .post('/medicalCard', mdAutorization.onlyVeterinaries, petController.addMedicalCard)
 
     /**
      * require:
+     *  {
+     *      id: String      //PetId
+     *      image: String   //Photo pet
+     *  }
      *  end_point:
      * {
      *  "message": "Pet photo updated",
