@@ -8,7 +8,7 @@ let validRoles = {
     message: '{VALUE} no es un rol permitido'
 };
 // Setup schema
-var userSchema = new Schema({
+let userSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -35,17 +35,28 @@ var userSchema = new Schema({
         type: Number,
         default: 0
     },
+    image:{
+        type: String
+    },
     level: {
         type: Number,
         default: 0
     },
+    milestones: [{ type: Schema.Types.ObjectId, ref: 'Milestone'}],
     create_date: {
         type: Date,
         default: Date.now
     }
+
 });
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser unico'});
 // Export User model
-module.exports = mongoose.model('User', userSchema);
 
+userSchema.methods.toJSON = function() {
+    const obj = this.toObject();
+    delete obj.password;
+    return obj;
+}
+
+module.exports = mongoose.model('User', userSchema);
 

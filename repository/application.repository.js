@@ -2,6 +2,9 @@
 // Import application model
 const Application = require('../model/applicationModel');
 const Vaccine = require('../model/vaccineModel');
+const Milestone = require('../repository/milestones.repository');
+const User = require('../repository/user.repository');
+
 // Handle create pet actions
 exports.new = function (newApplication) {
   return Vaccine.findOne({_id:newApplication.vaccine_id})
@@ -36,6 +39,35 @@ exports.update = function (req) {
   });
 };
 
+exports.markAsApplied = function (req) {
+  let appl;
+  return Application.findById(req.body.application_id)
+                    .then( application => {
+                                  application.application_date = req.body.application_date;
+                                  return application
+                  }).then( application =>{
+                                  appl = application
+                                  return computingMilestone(application, req.body.pet_owner_email)
+                  }).then( milestone =>{
+                                  return [appl,milestone];
+                  })
+};
+
+computingMilestone =  async function (application, userOwner){
+  if (application.application_date > application.estimated_date){
+    return null;
+  } 
+  let milestone;
+  return Milestone.new('APPLICATION_ON_TIME', 10)
+                  .then(milestoneCreated =>{
+                                          milestone = milestoneCreated;
+                                          return User.addMilestone(milestoneCreated,userOwner)
+                }).then( user => {
+                                  return milestone;
+                }
+      
+      )
+}
 
 // Handle index actions
 exports.findAll = function () {

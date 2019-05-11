@@ -32,5 +32,6 @@ var applicationSchema = mongoose.Schema({
         default: Date.now
     }
 });
+
 // Export MedicalCard model
 module.exports = mongoose.model('Application', applicationSchema);
