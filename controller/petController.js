@@ -57,7 +57,26 @@ exports.application = function (req, res) {
                         })
                     });   
 }
-    
+
+
+exports.image = function (req, res) {
+    console.log(req.file)
+    petRepository.updateImage(req.body.id,req.file.path).then(pet =>{
+        res.json({
+            message: 'Pet photo updated',
+            data: pet
+        });
+    }).catch(err =>{
+        res.status(400).json({
+            ok: false,
+            message : 'The image of the pet could not be updated',
+            errors : err
+        })
+    })
+
+};
+
+
 // ESTE UPDATE VA A DESAPARECER POR UPDATES MAS ESPECIFICOS
 // Handle update pet info
 exports.update = function (req, res) {

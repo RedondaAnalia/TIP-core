@@ -37,6 +37,10 @@ exports.findById = function (id) {
      
 }
 
+exports.updateImage = (pet_id, image) => {
+    return Pet.findOneAndUpdate({_id: pet_id}, {$set: {'image':image}},{new:true})
+}
+
 exports.update = function (p) {
     findById(body.pet_id).then(data => {
         if(data == null){

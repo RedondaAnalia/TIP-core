@@ -1,11 +1,11 @@
 const userRepository = require('../repository/user.repository');
+const User = require('../model/userModel');
 
 
 // PROP: Creates a new user in the DB
 exports.new = function (req, res) {
   userRepository.new(req.body)
                 .then(user => {
-                            user.password = ':)'
                             res.status(200).json({
                               ok : true,
                               message: 'New user created!',
@@ -25,7 +25,6 @@ exports.new = function (req, res) {
 exports.view = function (req, res) {
   userRepository.findByEmail(req.params.email)
                 .then( user => {
-                            user.password= ':)';
                             res.status(200).json({
                                         ok:true,
                                         message: 'User found!',
@@ -46,7 +45,6 @@ exports.view = function (req, res) {
 exports.newPet = (req, res) => {
   userRepository.addPet(req.body.user_id,req.body.pet)
                 .then(user => {
-                            user.password= ':)';
                             res.status(200).json({
                                         ok:true,
                                         message: 'Pet succesfully added!',
@@ -66,7 +64,6 @@ exports.newPet = (req, res) => {
 
 exports.newPet = (req, res) => {
   userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
-    user.password = ':)'
     res.status(200).json({
       ok:true,
       user
@@ -98,7 +95,25 @@ exports.delete = function (req, res) {
     })
     );
   };
-  
+
+exports.image = function (req, res) {
+    console.log(req.file)
+    userRepository.updateImage(req.body.id,req.file.path).then(user =>{
+        res.json({
+            message: 'User photo updated',
+            data: user
+        });
+    }).catch(err =>{
+        res.status(400).json({
+            ok: false,
+            message : 'Error al actualizar photo del usuario',
+            errors : err
+        })
+    })
+
+};
+
+
 // FIXME: ESTOS UPDATES EN FUTURO VAN A SER MAS ESPECIFICOS. QUEDAN PARA NO ROMPER NADA.
 // Handle update user info
 exports.update = function (req, res) {
@@ -109,7 +124,6 @@ exports.update = function (req, res) {
           message : 'No se encontro el usuario',
         });
       }
-      user.password = ':)';
       res.json({
         message: 'User Info updated',
         data: user
@@ -122,3 +136,8 @@ exports.update = function (req, res) {
       })
     });
   };
+
+
+
+
+

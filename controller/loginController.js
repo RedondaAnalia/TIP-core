@@ -22,7 +22,6 @@ exports.sign = (req, res) => {
                                         mensaje: 'Credenciales incorrectas - password',
                                     });
                                 }
-                                usuarioDB.password= ':)'
 
                                 //Crear un Token!
                                 var token= jwt.sign({ user: usuarioDB }, SEED , { expiresIn: 14400 } ); //4 horas
