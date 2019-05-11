@@ -39,6 +39,7 @@ var userSchema = new Schema({
         type: Number,
         default: 0
     },
+    milestones: [{ type: Schema.Types.ObjectId, ref: 'Milestone'}],
     create_date: {
         type: Date,
         default: Date.now

@@ -20,3 +20,14 @@ exports.update = function (req, res) {
                                         })
                         });
 }
+
+exports.markAsApplied = function (req, res){
+    applicationRepository.markAsApplied(req)
+                        .then( response =>{
+                            res.status(200).json({
+                                ok:true,
+                                milestones:response[1],
+                                application:response[0] 
+                            })
+                        } )
+}
