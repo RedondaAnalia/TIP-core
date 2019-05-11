@@ -1,3 +1,5 @@
+
+
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
 var bcrypt= require('bcryptjs');
@@ -56,3 +58,9 @@ exports.addPet= (user_id,pet) => {
   return petRepository.new(pet).then((res)=>
   User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}},{new:true}).populate('pets applications milestones'))
   }
+
+exports.updateImage = (user_id, image) => {
+  return User.findOneAndUpdate({_id: user_id}, {$set: {'image':image}},{new:true})
+
+}
+

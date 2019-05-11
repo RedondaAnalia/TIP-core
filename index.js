@@ -53,6 +53,7 @@ app.use('/vaccine', vaccineRoutes);
 app.use('/login', loginRoutes);
 app.use('/users', userRoutes);
 app.use('/pets', petRoutes);
+app.use('/uploads', express.static('uploads'))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', appRoutes);
 
