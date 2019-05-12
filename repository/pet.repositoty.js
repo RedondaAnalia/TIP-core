@@ -46,18 +46,20 @@ exports.update = function (p) {
         if(data == null){
              return null
         }
-        pet.name = p.name;
-        pet.gender = p.gender;
-        pet.date_of_birth = p.date_of_birth;
-        pet.castrate = p.castrate;
-        pet.code = p.code;
-        pet.experience = p.experience;
-        pet.level = p.level;
+        pet.name = p.name? p.name : pet.name;
+        pet.gender = p.gender? p.gender : pet.gender;
+        pet.date_of_birth = p.date_of_birth? p.date_of_birth : pet.date_of_birth;
+        pet.castrate = p.castrate? p.castrate: pet.castrate;
         return p.update();
     }).catch(err => {
         return reject(err);
     });
 }
+
+exports.castrate = function (id) {
+    return Pet.findOneAndUpdate({_id: id}, {$set: {castrate:true}}, {new: true})
+}
+
 
 exports.remove = function (pet_id) {
   return Pet.remove(pet_id);
