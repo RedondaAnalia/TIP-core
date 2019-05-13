@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express(); 
-var mdAutentication = require ('../middlewares/autentification');
-var mdAutorization = require ('../middlewares/autorization');
+const mdAutentication = require ('../middlewares/autentification');
+const mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
 const upload = require ('../middlewares/upload');
 
@@ -38,6 +38,6 @@ app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterin
      */
     .put('/image', upload.upload.single('image') ,petController.image)
     .get('/:id', petController.findOne)
-
+    .get('/castrate/:id',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.castrate)
 
 module.exports = app;

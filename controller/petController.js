@@ -76,8 +76,23 @@ exports.image = function (req, res) {
 
 };
 
+exports.castrate = function (req, res) {
+    petRepository.castrate(req.params.id)
+        .then(data => {
+            res.status(200).json({
+                ok:true,
+                message:'Pet castrate!',
+                pet : data
+            })
+        }).catch(err =>
+        res.status(400).json({
+            ok: false,
+            message : 'Error castrating pet!',
+            errors : err
+        })
+    );
+};
 
-// ESTE UPDATE VA A DESAPARECER POR UPDATES MAS ESPECIFICOS
 // Handle update pet info
 exports.update = function (req, res) {
     petRepository.update(req.body)

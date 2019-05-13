@@ -48,6 +48,11 @@ exports.update = (u) => {
   });
 };
 
+
+exports.changePassword = (id, password) => {
+  return User.findOneAndUpdate({_id: id}, {$set: {password:bcrypt.hashSync(password, 10)}}, {new: true})
+};
+
 exports.findByEmail = (email) => {
   return User.findOne({email}).populate('pets');
 };
