@@ -33,7 +33,8 @@ var petSchema = mongoose.Schema({
         default: 0
     },
     image:{
-        type: String
+        type: String,
+        default: null
     },
     species: String,
     breed: String,

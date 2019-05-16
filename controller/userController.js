@@ -83,7 +83,14 @@ exports.newPet = (req, res) => {
 exports.image = function (req, res) {
     console.log(req.file)
     userRepository.updateImage(req.body.id,req.file.path).then(user =>{
-        res.json({
+        if(!user){
+            res.status(404).json({
+                ok: false,
+                message : 'User not found',
+                errors : err
+            })
+        }
+        res.status(200).json({
             message: 'User photo updated',
             data: user
         });

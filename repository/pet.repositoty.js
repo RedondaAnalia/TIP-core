@@ -38,7 +38,22 @@ exports.findById = function (id) {
 }
 
 exports.updateImage = (pet_id, image) => {
-    return Pet.findOneAndUpdate({_id: pet_id}, {$set: {'image':image}},{new:true})
+    return Pet.findOneAndUpdate({_id: pet_id}, {$set: {'image':image}},{new:true}).populate(
+        [{
+            path: 'applications',
+            populate: {
+                path: 'vaccine',
+                model: 'Vaccine'
+            }
+        },{
+            path: 'medical_story',
+            populate:{
+                path: 'veterinary',
+                model:'User',
+                select: 'name email'
+            }
+        }
+        ]);
 }
 
 exports.update = function (p) {

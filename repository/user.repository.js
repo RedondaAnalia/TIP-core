@@ -54,7 +54,7 @@ exports.changePassword = (id, password) => {
 };
 
 exports.findByEmail = (email) => {
-  return User.findOne({email}).populate('pets');
+  return User.findOne({email}).populate('pets applications milestones');
 };
 
 exports.addPet= (user_id,pet) => {
@@ -64,10 +64,11 @@ exports.addPet= (user_id,pet) => {
 
 exports.updateImage = (user_id, image) => {
   return User.findOneAndUpdate({_id: user_id}, {$set: {'image':image}},{new:true})
+      .populate('pets applications milestones')
 }
 
 exports.addMilestone= (milestone, user) => {
   User.findOneAndUpdate({email: user}, {$addToSet: {milestones: milestone}},{new:true})
-      .populate('pets applications milestones').then(res => {return milestone})
+      .populate('pets applications milestones').then(() => {return milestone})
 }
 
