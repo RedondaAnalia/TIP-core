@@ -79,27 +79,18 @@ exports.newPet = (req, res) => {
 
 
 
-//NO DEBERIA ESTAR PUBLICADO!!!
-//PROP: Deletes an user from DB
-exports.delete = function (req, res) {
-  userRepository.remove(req.params.user_id).then(() => {
-    res.status(200).json({
-      ok:true,
-      message: 'user deleted'
-    });
-  }).catch(err => 
-    res.status(400).json({
-      ok: false,
-      message : 'Error al eliminar el usuario',
-      errors : err
-    })
-    );
-  };
 
 exports.image = function (req, res) {
     console.log(req.file)
     userRepository.updateImage(req.body.id,req.file.path).then(user =>{
-        res.json({
+        if(!user){
+            res.status(404).json({
+                ok: false,
+                message : 'User not found',
+                errors : err
+            })
+        }
+        res.status(200).json({
             message: 'User photo updated',
             data: user
         });
@@ -112,6 +103,31 @@ exports.image = function (req, res) {
     })
 
 };
+
+
+// Handle update user password
+exports.password = function (req, res) {
+    User.changePassword(req.body.id,req.body.password).then(user => {
+        if (!user){
+            return res.status(400).json({
+                ok: false,
+                message : 'User not found',
+            });
+        }
+        res.json({
+            message: 'User password updated',
+            data: user  
+        });
+    }).catch(err => {
+        res.status(400).json({
+            ok: false,
+            message : 'Error user password updated',
+            errors : err
+        })
+    });
+};
+
+
 
 
 // FIXME: ESTOS UPDATES EN FUTURO VAN A SER MAS ESPECIFICOS. QUEDAN PARA NO ROMPER NADA.

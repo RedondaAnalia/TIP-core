@@ -1,12 +1,14 @@
 const express = require('express');
-const app = express(); 
-const mdAutentication = require ('../middlewares/autentification');
+const app = express();
 const upload = require ('../middlewares/upload');
 const userController = require('../controller/userController');
+const mdAutentication = require ('../middlewares/autentification');
+const mdAutorization = require ('../middlewares/autorization');
 
 
 // User routes
 app
+    .get('/', userController.view)
     .post('/pet',userController.newPet)
     .get('/:email', userController.view)
 
@@ -37,6 +39,32 @@ app
      */
     .put('/image', upload.upload.single('image') ,userController.image)
     .post('/', userController.new)
+
+    /**
+     * require:
+     *      {
+     *          id: String      //UserId
+     *          password: String   //Password user
+     *      }
+     *  end_point:
+     *      {
+     *           "message": "User password updated",
+     *      }
+     */
+
     .put('/',mdAutentication.tokenVerifier,userController.update)
+
+    /**
+     * require:
+     *      {
+     *          id: String      //UserId
+     *          password: String   //Password user
+     *      }
+     *  end_point:
+     *      {
+     *           "message": "User password updated",
+     *      }
+     */
+    .put('/password',mdAutentication.tokenVerifier,mdAutorization.onlyUsers ,userController.password)
 
 module.exports = app;

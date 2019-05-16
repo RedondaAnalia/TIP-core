@@ -7,7 +7,7 @@ const userRepository = require('../repository/user.repository')
 
 // PRO: Login an user and provides a token.
 exports.sign = (req, res) => {
-    var body= req.body;
+    const body= req.body;
     userRepository.findByEmail(body.email)
                 .then(usuarioDB => {
                                 if(!usuarioDB){
