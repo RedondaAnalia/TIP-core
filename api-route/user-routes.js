@@ -7,6 +7,7 @@ const userController = require('../controller/userController');
 
 // User routes
 app
+    .get('/', userController.view)
     .post('/pet',userController.newPet)
     .get('/:email', userController.view)
 
