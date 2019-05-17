@@ -68,7 +68,13 @@ exports.updateImage = (user_id, image) => {
 }
 
 exports.addMilestone= (milestone, user) => {
-  User.findOneAndUpdate({email: user}, {$addToSet: {milestones: milestone}},{new:true})
-      .populate('pets applications milestones').then(() => {return milestone})
+  return User.findOneAndUpdate({email: user}, 
+                               {$addToSet: {milestones: milestone},
+                               $inc: {experience : milestone.points}},
+                               {new:true})
+      .populate('pets applications milestones')
+      .then(() => {return milestone})
+
+//     { $set: { <field1>: <value1>, ... }, $push: { <field>: <value>, ..} }
 }
 
