@@ -4,7 +4,7 @@ const upload = require ('../middlewares/upload');
 const userController = require('../controller/userController');
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
-
+const uploadS3 = require('../services/upload-s3');
 
 // User routes
 app
@@ -38,6 +38,7 @@ app
      *      }
      */
     .put('/image', upload.upload.single('image') ,userController.image)
+    .put('/images3', uploadS3.single('image') ,userController.image)
     .post('/', userController.new)
 
     /**

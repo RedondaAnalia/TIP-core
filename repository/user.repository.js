@@ -67,6 +67,9 @@ exports.updateImage = (user_id, image) => {
       .populate('pets applications milestones')
 }
 
+
+
+
 exports.addMilestone= (milestone, user) => {
   return User.findOneAndUpdate({email: user}, 
                                {$addToSet: {milestones: milestone},
