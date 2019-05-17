@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     filename:function(req,file,cb){
         const fileName = file.originalname.split('.');
         const extension = fileName[fileName.length - 1 ];
-        cb(null, req.baseUrl +"-"+req.body.id+"."+extension)
+        cb(null, req.baseUrl+"-"+req.body.id+"-"+new Date().getMilliseconds()+"."+extension)
     }
 })
 const fileFilter = (req,file,cb)=>{
