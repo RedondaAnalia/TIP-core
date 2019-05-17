@@ -36,7 +36,8 @@ let userSchema = new Schema({
         default: 0
     },
     image:{
-        type: String
+        type: String,
+        default: null
     },
     level: {
         type: Number,
