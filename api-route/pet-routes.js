@@ -3,7 +3,7 @@ const app = express();
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
-const upload = require ('../middlewares/upload');
+const uploadS3 = require('../services/upload-s3');
 
 // PET routes
 
@@ -36,7 +36,7 @@ app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterin
      *      }
      *  }
      */
-    .put('/image', upload.upload.single('image') ,petController.image)
+    .put('/image', uploadS3.single('image'),petController.image)
     .get('/:id', petController.findOne)
     .get('/castrate/:id',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.castrate)
 
