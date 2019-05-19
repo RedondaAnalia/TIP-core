@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const upload = require ('../middlewares/upload');
 const userController = require('../controller/userController');
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
@@ -37,8 +36,7 @@ app
      *           }
      *      }
      */
-    .put('/image', upload.upload.single('image') ,userController.image)
-    .put('/images3', uploadS3.single('image') ,userController.image)
+    .put('/image', uploadS3.single('image') ,userController.image)
     .post('/', userController.new)
 
     /**
