@@ -3,10 +3,9 @@
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk/index');
-const variables_env = require('../config/config-module').config()
 
-const KEYID = variables_env.AVSKEYID;
-const KEYACCESS = variables_env.AVSKEYACCESS;
+const KEYID = process.env.AVSKEYID;
+const KEYACCESS = process.env.AVSKEYACCESS;
 
 
 aws.config.update({

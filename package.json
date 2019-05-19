@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "NODE_ENV=staging nodemon index.js",
     "start:dev": "NODE_ENV=development nodemon index.js",
     "start:prod": "NODE_ENV=production nodemon index.js",
     "start:hero": "NODE_ENV=heroku nodemon index.js",
@@ -31,6 +31,8 @@
     "aws-sdk": "^2.457.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "custom-env": "^1.0.1",
+    "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "google-auth-library": "^1.6.1",
     "jsonwebtoken": "^8.2.2",
