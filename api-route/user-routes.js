@@ -66,5 +66,18 @@ app
      *      }
      */
     .put('/password',mdAutentication.tokenVerifier,mdAutorization.onlyUsers ,userController.password)
+    /**
+     * require:
+     *      {
+     *          id: String      //UserId
+     *          exp: Number   //Password user
+     *      }
+     *  end_point:
+     *      {
+     *           "message": "User exp updated",
+     *           "user": User
+     *      }
+     */
+    .put('/experience',userController.addExp)
 
 module.exports = app;

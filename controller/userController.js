@@ -104,10 +104,31 @@ exports.image = function (req, res) {
 
 };
 
+exports.addExp= function(req,res) {
+    userRepository.addExperience(req.body.id,req.body.exp).then(user => {
+        if (!user){
+            return res.status(400).json({
+                ok: false,
+                message : 'User not found',
+            });
+        }
+        res.json({
+            message: 'User exp updated',
+            data: user
+        });
+    }).catch(err => {
+        res.status(400).json({
+            ok: false,
+            message : 'Error user exp updated',
+            errors : err
+        })
+    });
+}
+
 
 // Handle update user password
 exports.password = function (req, res) {
-    User.changePassword(req.body.id,req.body.password).then(user => {
+    userRepository.changePassword(req.body.id,req.body.password).then(user => {
         if (!user){
             return res.status(400).json({
                 ok: false,
