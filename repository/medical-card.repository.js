@@ -12,7 +12,7 @@ exports.new = function (mc) {
 };
 
 exports.findById = (diagnostic_id) => {
-  return MedicalCard.findById(vaccine_id);
+  return MedicalCard.findById(diagnostic_id);
 };
 
 exports.findAll = () => {

@@ -1,7 +1,7 @@
 let express = require('express');
 let app = express(); 
-var mdAutentication = require ('../middlewares/autentification');
-var mdAutorization = require ('../middlewares/autorization');
+const mdAutentication = require ('../middlewares/autentification');
+const mdAutorization = require ('../middlewares/autorization');
 
 
 // Import application controller
