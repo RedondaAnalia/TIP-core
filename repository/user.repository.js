@@ -54,8 +54,8 @@ exports.changePassword = (id, password) => {
   return User.findOneAndUpdate({_id: id}, {$set: {password:bcrypt.hashSync(password, 10)}}, {new: true})
 };
 
-exports.addExperience = (id, exp) => {
-  return this.findById(id).then(user => {
+exports.addExperience = (mail, exp) => {
+  return this.findByEmail(mail).then(user => {
     user.experience += exp;
     return levelRepository.findByExp(user.experience).then(level => {
         if(user.level < level[0].level){
@@ -81,7 +81,7 @@ exports.updateImage = (user_id, image) => {
 }
 
 exports.addMilestone= (milestone, user) => {
-  return addExperience(user.id,milestone.points).then(user =>{
+  return this.addExperience(user,milestone.points).then(user =>{
     return User.findOneAndUpdate({email: user},
         {$addToSet: {milestones: milestone}},
         {new:true})
