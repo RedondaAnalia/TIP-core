@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const variables_env = require('./config/config-module.js').config()
-var PORT = 3000;
-var MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
+let PORT = 3000;
+let MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
 
 if(variables_env){
     PORT = variables_env.PORT;
@@ -59,6 +59,8 @@ app.use('/', appRoutes);
 
 //Designacion de puerto por donde escucha la app.
 
-module.exports = app.listen(process.env.PORT || PORT ||5000 , ()=> {
+app.listen(process.env.PORT || PORT ||5000 , ()=> {
     console.log(`Express Server puerto ${PORT || 3000}: \x1b[32m%s\x1b[0m`, 'online');
 });
+
+module.exports = app;
