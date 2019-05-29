@@ -32,7 +32,7 @@ describe('/POST user', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                res.body.should.have.property('message').eql('New user created!')
+                res.body.should.have.property('message').eql('New user created!');
                 res.body.data.should.have.property('name');
                 res.body.data.should.have.property('name').eql('newUser');
                 res.body.data.should.have.property('email').eql('newUser@mail.com');
@@ -62,7 +62,32 @@ describe('/POST user', () => {
                     res.should.have.status(412);
                     res.body.should.be.a('object');
                     res.body.should.have.property('message').eql('Error creating new user!');
-                    res.body.err.should.have.property('message').eql('User validation failed: email: email debe ser unico')
+                    res.body.err.should.have.property('message').eql('User validation failed: email: email debe ser unico');
+                    done();
+                });
+        });
+    });
+    describe('/POST a user with no configure mail', () => {
+        it('it should THROW an error', (done) => {
+            let json = {
+                name: "newUser",
+                email: "newUser",
+                password: "newUser",
+                phone: 3324123,
+                gender: "MALE"
+            };
+            chai.request(server)
+                .post('/users')
+                .send(json)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('errors').be.a('Array');
+                    res.body.should.have.property('errors').that.is.not.empty;
+                    res.body.should.have.nested.property('errors[0].param').eql('email');
+                    res.body.should.have.nested.property('errors[0].value').eql('newUser');
+                    res.body.should.have.nested.property('errors[0].msg').eql('Invalid value');
+
                     done();
                 });
         });
@@ -74,7 +99,7 @@ describe('/POST user', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('message').eql('User found!')
+                    res.body.should.have.property('message').eql('User found!');
                     res.body.data.should.have.property('name');
                     res.body.data.should.have.property('name').eql('newUser');
                     res.body.data.should.have.property('email').eql('newUser@mail.com');
@@ -106,7 +131,7 @@ describe('/POST user', () => {
                                 .end((err, res) => {
                                     res.should.have.status(200);
                                     res.body.should.be.a('object');
-                                    res.body.should.have.property('message').eql("pet added to "+ res.body.user.mail)
+                                    res.body.should.have.property('message').eql("pet added to "+ res.body.user.mail);
                                     res.body.user.should.have.property('name');
                                     res.body.user.should.have.property('name').eql('newUser');
                                     res.body.user.should.have.property('email').eql('newUser@mail.com');
@@ -123,6 +148,31 @@ describe('/POST user', () => {
                                 });
                         });
                     });
+
+                    describe('/POST pet', () => {
+                        it('it should POST a pet to user' + res.body.name, (done) => {
+
+                            let json = {
+                                user_id: res.body.data._id,
+                                pet: {
+                                    name: "Arepa",
+                                    date_of_birth: "2014/10/20",
+                                    castrate: true,
+                                    gender: "CANARIO"
+
+                                }
+                            };
+                            chai.request(server)
+                                .post('/users/pet')
+                                .send(json)
+                                .end((err, res) => {
+                                    res.should.have.status(400);
+                                    res.body.error.should.have.property('message').eql('Pet validation failed: gender: CANARIO no es un rol permitido');
+                                });
+                            done()
+                        });
+                    });
+
                     done();
                 });
         });

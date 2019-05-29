@@ -4,7 +4,7 @@ const upload = require ('../middlewares/upload');
 const userController = require('../controller/userController');
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
-const jsonValidator = require ('../middlewares/jsonValidator')
+const jsonValidator = require ('../middlewares/jsonValidator');
 
 // User routes
 app
@@ -78,6 +78,6 @@ app
      *           "user": User
      *      }
      */
-    .put('/experience',userController.addExp)
+    .put('/experience',userController.addExp);
 
 module.exports = app;
