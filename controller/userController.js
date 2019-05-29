@@ -1,10 +1,17 @@
 const userRepository = require('../repository/user.repository');
 const User = require('../model/userModel');
+const { validationResult } = require('express-validator/check');
 
 
 // PROP: Creates a new user in the DB
 exports.new = function (req, res) {
-  userRepository.new(req.body)
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    userRepository.new(req.body)
                 .then(user => {
                             res.status(200).json({
                               ok : true,

@@ -4,7 +4,7 @@ const upload = require ('../middlewares/upload');
 const userController = require('../controller/userController');
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
-
+const jsonValidator = require ('../middlewares/jsonValidator')
 
 // User routes
 app
@@ -38,7 +38,7 @@ app
      *      }
      */
     .put('/image', upload.upload.single('image') ,userController.image)
-    .post('/', userController.new)
+    .post('/',jsonValidator.newUserJSONValidator, userController.new)
 
     /**
      * require:
