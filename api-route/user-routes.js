@@ -40,7 +40,7 @@ app
      */
 
     .put('/image', uploadS3.single('image') ,userController.image)
-    .post('/', userController.new)
+    .post('/',jsonValidator.newUserJSONValidator, userController.new)
 
     /**
      * require:
