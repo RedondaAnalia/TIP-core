@@ -65,8 +65,9 @@ exports.newPet = (req, res) => {
 exports.newPet = (req, res) => {
   userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
     res.status(200).json({
-      ok:true,
-      user
+        ok:true,
+        message:"pet added to "+ user.mail,
+        user
     });
   }).catch(err =>{
     res.status(400).json({
