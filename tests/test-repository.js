@@ -43,30 +43,32 @@ describe('/POST user', () => {
                 res.body.data.should.have.property('level').eql(0);
                 res.body.data.should.have.property('experience').eql(0);
                 res.body.data.should.have.not.property('password');
+                describe('/POST repeat user', () => {
+                    it('it should THROW an error', (done) => {
+                        let json = {
+                            name: "newUser",
+                            email: "newUser@mail.com",
+                            password: "newUser",
+                            phone: 3324123,
+                            gender: "MALE"
+                        };
+                        chai.request(server)
+                            .post('/users')
+                            .send(json)
+                            .end((err, res) => {
+                                res.should.have.status(412);
+                                res.body.should.be.a('object');
+                                res.body.should.have.property('message').eql('Error creating new user!');
+                                res.body.err.should.have.property('message').eql('User validation failed: email: email debe ser unico');
+                                done();
+                            });
+                    });
+                });
+
                 done();
             });
     });
-    describe('/POST repeat user', () => {
-        it('it should THROW an error', (done) => {
-            let json = {
-                name: "newUser",
-                email: "newUser@mail.com",
-                password: "newUser",
-                phone: 3324123,
-                gender: "MALE"
-            };
-            chai.request(server)
-                .post('/users')
-                .send(json)
-                .end((err, res) => {
-                    res.should.have.status(412);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('message').eql('Error creating new user!');
-                    res.body.err.should.have.property('message').eql('User validation failed: email: email debe ser unico');
-                    done();
-                });
-        });
-    });
+
     describe('/POST a user with no configure mail', () => {
         it('it should THROW an error', (done) => {
             let json = {
