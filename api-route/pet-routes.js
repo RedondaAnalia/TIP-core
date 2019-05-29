@@ -5,6 +5,8 @@ const mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
 const upload = require ('../middlewares/upload');
 const jsonValidator = require ('../middlewares/jsonValidator');
+const uploadS3 = require('../services/upload-s3');
+
 
 // PET routes
 
@@ -37,7 +39,7 @@ app.post('/application',jsonValidator.newApplicationJSONValidator, mdAutenticati
      *      }
      *  }
      */
-    .put('/image', upload.upload.single('image') ,petController.image)
+    .put('/image', uploadS3.single('image'),petController.image)
     .get('/:id', petController.findOne)
     .get('/castrate/:id',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.castrate)
 
