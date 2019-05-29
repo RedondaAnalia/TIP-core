@@ -93,8 +93,3 @@ describe('/POST user', () => {
     });
 });
 
-after(() => {
-    server.close()
-    mongoose.connection.close()
-
-});
