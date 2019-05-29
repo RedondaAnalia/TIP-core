@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const variables_env = require('./config/config-module.js').config()
-var PORT = 3000;
-var MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
+let PORT = 3000;
+let MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
 
 if(variables_env){
     PORT = variables_env.PORT;
