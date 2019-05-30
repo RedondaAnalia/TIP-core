@@ -2,6 +2,7 @@
 
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
+const levelRepository = require ('../repository/level.repository');
 var bcrypt= require('bcryptjs');
 
 
@@ -53,6 +54,18 @@ exports.changePassword = (id, password) => {
   return User.findOneAndUpdate({_id: id}, {$set: {password:bcrypt.hashSync(password, 10)}}, {new: true})
 };
 
+exports.addExperience = (mail, exp) => {
+  return this.findByEmail(mail).then(user => {
+    user.experience += exp;
+    return levelRepository.findByExp(user.experience).then(level => {
+        if(user.level < level[0].level){
+          user.level = level[0].level
+        }
+      return user.save()
+      })
+    })
+  }
+
 exports.findByEmail = (email) => {
   return User.findOne({email}).populate('pets applications milestones');
 };
@@ -71,12 +84,14 @@ exports.updateImage = (user_id, image) => {
 
 
 exports.addMilestone= (milestone, user) => {
-  return User.findOneAndUpdate({email: user}, 
-                               {$addToSet: {milestones: milestone},
-                               $inc: {experience : milestone.points}},
-                               {new:true})
-      .populate('pets applications milestones')
-      .then(() => {return milestone})
+  return this.addExperience(user,milestone.points).then(user =>{
+    return User.findOneAndUpdate({email: user},
+        {$addToSet: {milestones: milestone}},
+        {new:true})
+        .populate('pets applications milestones')
+        .then(() => {return milestone})
+
+  })
 
 //     { $set: { <field1>: <value1>, ... }, $push: { <field>: <value>, ..} }
 }

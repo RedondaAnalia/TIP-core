@@ -3,11 +3,14 @@ const app = express();
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
+const upload = require ('../middlewares/upload');
+const jsonValidator = require ('../middlewares/jsonValidator');
 const uploadS3 = require('../services/upload-s3');
+
 
 // PET routes
 
-app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
+app.post('/application',jsonValidator.newApplicationJSONValidator, mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
     .post('/medicalCard', mdAutorization.onlyVeterinaries, petController.addMedicalCard)
 
     /**

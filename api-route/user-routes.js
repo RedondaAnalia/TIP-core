@@ -3,7 +3,9 @@ const app = express();
 const userController = require('../controller/userController');
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
+const jsonValidator = require ('../middlewares/jsonValidator');
 const uploadS3 = require('../services/upload-s3');
+
 
 // User routes
 app
@@ -36,8 +38,9 @@ app
      *           }
      *      }
      */
+
     .put('/image', uploadS3.single('image') ,userController.image)
-    .post('/', userController.new)
+    .post('/',jsonValidator.newUserJSONValidator, userController.new)
 
     /**
      * require:
@@ -65,5 +68,18 @@ app
      *      }
      */
     .put('/password',mdAutentication.tokenVerifier,mdAutorization.onlyUsers ,userController.password)
+    /**
+     * require:
+     *      {
+     *          id: String      //UserId
+     *          exp: Number   //Password user
+     *      }
+     *  end_point:
+     *      {
+     *           "message": "User exp updated",
+     *           "user": User
+     *      }
+     */
+    .put('/experience',userController.addExp);
 
 module.exports = app;

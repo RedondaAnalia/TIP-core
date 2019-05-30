@@ -1,10 +1,17 @@
 const userRepository = require('../repository/user.repository');
 const User = require('../model/userModel');
+const { validationResult } = require('express-validator/check');
 
 
 // PROP: Creates a new user in the DB
 exports.new = function (req, res) {
-  userRepository.new(req.body)
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    userRepository.new(req.body)
                 .then(user => {
                             res.status(200).json({
                               ok : true,
@@ -65,8 +72,9 @@ exports.newPet = (req, res) => {
 exports.newPet = (req, res) => {
   userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
     res.status(200).json({
-      ok:true,
-      user
+        ok:true,
+        message:"pet added to "+ user.mail,
+        user
     });
   }).catch(err =>{
     res.status(400).json({
@@ -100,10 +108,31 @@ exports.image = function (req, res) {
 
 };
 
+exports.addExp= function(req,res) {
+    userRepository.addExperience(req.body.id,req.body.exp).then(user => {
+        if (!user){
+            return res.status(400).json({
+                ok: false,
+                message : 'User not found',
+            });
+        }
+        res.json({
+            message: 'User exp updated',
+            data: user
+        });
+    }).catch(err => {
+        res.status(400).json({
+            ok: false,
+            message : 'Error user exp updated',
+            errors : err
+        })
+    });
+}
+
 
 // Handle update user password
 exports.password = function (req, res) {
-    User.changePassword(req.body.id,req.body.password).then(user => {
+    userRepository.changePassword(req.body.id,req.body.password).then(user => {
         if (!user){
             return res.status(400).json({
                 ok: false,
