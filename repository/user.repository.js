@@ -1,9 +1,8 @@
-
-
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
 const levelRepository = require ('../repository/level.repository');
-var bcrypt= require('bcryptjs');
+const bcrypt= require('bcryptjs');
+const friendshipService = require('../services/friendshipService');
 
 
 exports.findAll = () => {
@@ -15,16 +14,21 @@ exports.countAll = () => {
 };
 
 exports.new = (u) => {
-  return new User({
-    name : u.name,
-    img : u.img,
-    role : u.role,
-    google : u.google,
-    gender : u.gender,
-    email : u.email,
-    password: bcrypt.hashSync(u.password, 10),
-    phone : u.phone
-  }).save();
+
+  return friendshipService.newSocialUser(u.email).then(()=>{
+    return new User({
+      name : u.name,
+      img : u.img,
+      role : u.role,
+      google : u.google,
+      gender : u.gender,
+      email : u.email,
+      password: bcrypt.hashSync(u.password, 10),
+      phone : u.phone
+    }).save();
+  }).catch((err) => {
+    return err;
+  })
 };
 
 exports.findById = (id) => {
