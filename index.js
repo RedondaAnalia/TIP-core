@@ -14,7 +14,6 @@ const variables_env = require('./config/config-module.js').config()
 let PORT = 3000;
 let MONGURI = "mongodb://localhost:27017/petHeroesDB_dev";
 
-
 //if(variables_env){
 //    PORT = variables_env.PORT;
 //    MONGURI = variables_env.MONGURI;
@@ -35,7 +34,9 @@ app.use(function(req, res, next) {
 });
 
 //Conexion con BBDD
+
 mongoose.connection.openUri(process.env.MOGURI,
+
         (err,res) => {
                 if ( err ) throw err;
                 console.log('BBDD: \x1b[32m%s\x1b[0m', 'online');

@@ -1,5 +1,5 @@
 module.exports.VALIDS_ROLES = ['USER_ROLE', 'VET_ROLE', 'SERVICE_ROLE'];
-module.exports.PETS_GENDERS = [ 'MALE' , 'FEMALE'];
+module.exports.PETS_GENDERS = [ 'MALE' , 'FEMALE', 'X'];
 
 module.exports.SEED = 'este-es-un-seed-dificil';
 

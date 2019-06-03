@@ -9,7 +9,7 @@ let validGenders = {
 };
 
 // Setup schema
-var petSchema = mongoose.Schema({
+const petSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
