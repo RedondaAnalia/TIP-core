@@ -84,6 +84,9 @@ exports.updateImage = (user_id, image) => {
       .populate('pets applications milestones')
 }
 
+
+
+
 exports.addMilestone= (milestone, user) => {
   return this.addExperience(user,milestone.points).then(user =>{
     return User.findOneAndUpdate({email: user},

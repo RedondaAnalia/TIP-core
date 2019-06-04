@@ -4,10 +4,13 @@ const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
 const petController = require('../controller/petController');
 const upload = require ('../middlewares/upload');
+const jsonValidator = require ('../middlewares/jsonValidator');
+const uploadS3 = require('../services/upload-s3');
+
 
 // PET routes
 
-app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
+app.post('/application',jsonValidator.newApplicationJSONValidator, mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.application)
     .post('/medicalCard', mdAutorization.onlyVeterinaries, petController.addMedicalCard)
 
     /**
@@ -36,7 +39,7 @@ app.post('/application',mdAutentication.tokenVerifier,mdAutorization.onlyVeterin
      *      }
      *  }
      */
-    .put('/image', upload.upload.single('image') ,petController.image)
+    .put('/image', uploadS3.single('image'),petController.image)
     .get('/:id', petController.findOne)
     .get('/castrate/:id',mdAutentication.tokenVerifier,mdAutorization.onlyVeterinaries ,petController.castrate)
 

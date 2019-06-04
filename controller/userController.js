@@ -1,10 +1,17 @@
 const userRepository = require('../repository/user.repository');
 const User = require('../model/userModel');
+const { validationResult } = require('express-validator/check');
 
 
 // PROP: Creates a new user in the DB
 exports.new = function (req, res) {
-  userRepository.new(req.body)
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    userRepository.new(req.body)
                 .then(user => {
                             res.status(200).json({
                               ok : true,
@@ -65,8 +72,9 @@ exports.newPet = (req, res) => {
 exports.newPet = (req, res) => {
   userRepository.addPet(req.body.user_id,req.body.pet).then(user => {
     res.status(200).json({
-      ok:true,
-      user
+        ok:true,
+        message:"pet added to "+ user.mail,
+        user
     });
   }).catch(err =>{
     res.status(400).json({
@@ -76,13 +84,9 @@ exports.newPet = (req, res) => {
 });
 }
 
-
-
-
-
 exports.image = function (req, res) {
     console.log(req.file)
-    userRepository.updateImage(req.body.id,req.file.path).then(user =>{
+    userRepository.updateImage(req.body.id,req.file.location).then(user =>{
         if(!user){
             res.status(404).json({
                 ok: false,

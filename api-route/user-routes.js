@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const upload = require ('../middlewares/upload');
 const userController = require('../controller/userController');
 const mdAutentication = require ('../middlewares/autentification');
 const mdAutorization = require ('../middlewares/autorization');
+const jsonValidator = require ('../middlewares/jsonValidator');
+const uploadS3 = require('../services/upload-s3');
 
 
 // User routes
@@ -37,8 +38,9 @@ app
      *           }
      *      }
      */
-    .put('/image', upload.upload.single('image') ,userController.image)
-    .post('/', userController.new)
+
+    .put('/image', uploadS3.single('image') ,userController.image)
+    .post('/',jsonValidator.newUserJSONValidator, userController.new)
 
     /**
      * require:
@@ -78,6 +80,6 @@ app
      *           "user": User
      *      }
      */
-    .put('/experience',userController.addExp)
+    .put('/experience',userController.addExp);
 
 module.exports = app;
