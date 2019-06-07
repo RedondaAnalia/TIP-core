@@ -15,18 +15,13 @@ before('set up test-environment',function(){
   mongoose.connect(variables_env.MONGURI, function(){
     mongoose.connection.db.dropDatabase(function(){
     });
-      friendshipService.post('/user',{mail:"newUser@mail.com"}).reply(200,{});
+
   });
-
+  friendshipService.post('/user',{mail:"newUser@mail.com"}).reply(200,{});
 });
-
-
 
 describe('/POST user', () => {
     it('it should CREATE a new user', (done) => {
-
-
-
         let json = {
             name:"newUser",
             email:"newUser@mail.com",
