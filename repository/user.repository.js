@@ -26,8 +26,6 @@ exports.new = (u) => {
       password: bcrypt.hashSync(u.password, 10),
       phone : u.phone
     }).save();
-  }).catch((err) => {
-    return err;
   })
 };
 

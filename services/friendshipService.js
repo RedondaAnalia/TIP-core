@@ -4,7 +4,7 @@ const rp = require('request-promise');
 exports.newSocialUser = (mail) =>{
     const options = {
         method: 'POST',
-        uri: "process.env.FRIEND_URL"+ "user",
+        uri: process.env.FRIEND_URL+ "user",
         body: {
             mail: mail
         },

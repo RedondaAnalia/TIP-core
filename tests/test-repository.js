@@ -2,23 +2,31 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const variables_env = require('../config/config-module.js').config();
+const nock = require('nock')
 
 const mongoose = require('mongoose');
 const server =require('../index');
 const should = chai.should();
+const friendshipService = nock(process.env.TEST_URL).persist();
 
 chai.use(chaiHttp);
 
 before('set up test-environment',function(){
   mongoose.connect(variables_env.MONGURI, function(){
     mongoose.connection.db.dropDatabase(function(){
-    })    
+    });
+      friendshipService.post('/user',{mail:"newUser@mail.com"}).reply(200,{});
   });
+
 });
+
 
 
 describe('/POST user', () => {
     it('it should CREATE a new user', (done) => {
+
+
+
         let json = {
             name:"newUser",
             email:"newUser@mail.com",
@@ -26,6 +34,7 @@ describe('/POST user', () => {
             phone: 3324123,
             gender : "MALE"
         };
+
         chai.request(server)
             .post('/users')
             .send(json)
