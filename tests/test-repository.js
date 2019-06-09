@@ -15,21 +15,20 @@ before('set up test-environment',function(){
   mongoose.connect(variables_env.MONGURI, function(){
     mongoose.connection.db.dropDatabase(function(){
     });
-
   });
   friendshipService.post('/user',{mail:"newUser@mail.com"}).reply(200,{});
 });
 
+const json = {
+    name:"newUser",
+    email:"newUser@mail.com",
+    password : "newUser",
+    phone: 3324123,
+    gender : "MALE"
+};
+
 describe('/POST user', () => {
     it('it should CREATE a new user', (done) => {
-        let json = {
-            name:"newUser",
-            email:"newUser@mail.com",
-            password : "newUser",
-            phone: 3324123,
-            gender : "MALE"
-        };
-
         chai.request(server)
             .post('/users')
             .send(json)
@@ -49,13 +48,6 @@ describe('/POST user', () => {
                 res.body.data.should.have.not.property('password');
                 describe('/POST repeat user', () => {
                     it('it should THROW an error', (done) => {
-                        let json = {
-                            name: "newUser",
-                            email: "newUser@mail.com",
-                            password: "newUser",
-                            phone: 3324123,
-                            gender: "MALE"
-                        };
                         chai.request(server)
                             .post('/users')
                             .send(json)
@@ -75,23 +67,22 @@ describe('/POST user', () => {
 
     describe('/POST a user with no configure mail', () => {
         it('it should THROW an error', (done) => {
-            let json = {
-                name: "newUser",
-                email: "newUser",
-                password: "newUser",
-                phone: 3324123,
-                gender: "MALE"
-            };
+            const jsonWithoutMail = {
+                ...json,
+                email: '',
+            }
+            //delete jsonWithoutMail.email
+
             chai.request(server)
                 .post('/users')
-                .send(json)
+                .send(jsonWithoutMail)
                 .end((err, res) => {
                     res.should.have.status(422);
                     res.body.should.be.a('object');
                     res.body.should.have.property('errors').be.a('Array');
                     res.body.should.have.property('errors').that.is.not.empty;
                     res.body.should.have.nested.property('errors[0].param').eql('email');
-                    res.body.should.have.nested.property('errors[0].value').eql('newUser');
+                    res.body.should.have.nested.property('errors[0].value').eq('');
                     res.body.should.have.nested.property('errors[0].msg').eql('Invalid value');
 
                     done();
@@ -101,7 +92,7 @@ describe('/POST user', () => {
     describe('/GET user', () => {
         it('it should GET user created', (done) => {
             chai.request(server)
-                .get('/users/newUser@mail.com')
+                .get('/users/' + json.email)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -155,6 +146,28 @@ describe('/POST user', () => {
                         });
                     });
 
+                    describe('/POST pet without name', () => {
+                        it('it should throw a error' + res.body.name, (done) => {
+
+                            let json = {
+                                user_id: res.body.data._id,
+                                pet: {
+                                    date_of_birth: "2014/10/20",
+                                    castrate: true,
+                                    gender: "MALE"
+
+                                }
+                            };
+                            chai.request(server)
+                                .post('/users/pet')
+                                .send(json)
+                                .end((err, res) => {
+                                    res.should.have.status(400);
+                                    res.body.error.should.have.property('message').eql('Pet validation failed: name: Path `name` is required.');
+                                });
+                            done()
+                        });
+                    });
                     describe('/POST pet', () => {
                         it('it should POST a pet to user' + res.body.name, (done) => {
 
@@ -178,10 +191,10 @@ describe('/POST user', () => {
                             done()
                         });
                     });
-
                     done();
                 });
         });
     });
+
 });
 

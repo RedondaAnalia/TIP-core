@@ -15,3 +15,21 @@ exports.newApplicationJSONValidator = [
     // pet_id must be exist
     check('vaccine_id').not().isEmpty()
 ];
+exports.newPetJSONValidator = [
+    // user_id must be exist
+    check('user_id').not().isEmpty(),
+    // pet name must be exist
+    check('pet.name').not().isEmpty(),
+    // pet name must be exist
+    check('pet.gender').not().isEmpty(),
+    // pet name must be exist
+    check('pet.date_of_birth').not().isEmpty()
+];
+
+exports.addExpJSONValidator = [
+    // user_id must be exist
+    check('id').not().isEmpty(),
+    // pet name must be exist
+    check('exp').not().isEmpty().isNumeric(),
+];
+

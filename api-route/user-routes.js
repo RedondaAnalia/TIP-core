@@ -8,10 +8,8 @@ const uploadS3 = require('../services/upload-s3');
 
 
 // User routes
-app
-    .get('/', userController.view)
-    .post('/pet',userController.newPet)
-    .get('/:email', userController.view)
+app.post('/pet',jsonValidator.newPetJSONValidator,userController.newPet)
+
 
     /**
      * require:
@@ -80,6 +78,11 @@ app
      *           "user": User
      *      }
      */
-    .put('/experience',userController.addExp);
+    .put('/experience',jsonValidator.addExpJSONValidator,userController.addExp)
+    //http://localhost:3000/users/search?query=com
+    .get('/search/', userController.search)
+    .get('/friends/',userController.friends)
+    .get('/:email', userController.view);
+
 
 module.exports = app;

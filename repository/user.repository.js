@@ -1,3 +1,4 @@
+
 const User = require('../model/userModel');
 const petRepository = require ('../repository/pet.repositoty');
 const levelRepository = require ('../repository/level.repository');
@@ -96,5 +97,25 @@ exports.addMilestone= (milestone, user) => {
   })
 
 //     { $set: { <field1>: <value1>, ... }, $push: { <field>: <value>, ..} }
-}
+};
 
+exports.search = (query) => {
+  const regex = new RegExp( query, 'i' );
+  return new Promise((resolve, reject) => {
+    User.find({}, 'name email image')
+        .or([{ 'name': regex }, { 'email': regex }])
+        .exec((err,users) => {
+          if(err){
+            reject('Error al cargar el usuario', err);
+          }else{
+            resolve(users)
+          }
+        })
+
+  })
+};
+exports.friends = (mail) =>  {
+  return friendshipService.friends(mail).then((friends)=>{
+    return Promise.all(friends.map((email) => User.find({email}, 'name email image')))
+  })
+};
