@@ -8,7 +8,7 @@ const friendshipService = require('../services/friendshipService');
 
 exports.findAll = () => {
     return User.find({ }, '').populate('pets');
-}
+};
 
 exports.countAll = () => {
   return User.count({});
@@ -32,7 +32,7 @@ exports.new = (u) => {
 
 exports.findById = (id) => {
   return User.findById(id);
-}
+};
 
 exports.update = (u) => {
   this.findByEmail(u.email).then((user) => {
@@ -67,7 +67,7 @@ exports.addExperience = (mail, exp) => {
       return user.save()
       })
     })
-  }
+  };
 
 exports.findByEmail = (email) => {
   return User.findOne({email}).populate('pets applications milestones');
@@ -76,12 +76,12 @@ exports.findByEmail = (email) => {
 exports.addPet= (user_id,pet) => {
   return petRepository.new(pet).then((res)=>
   User.findOneAndUpdate({_id: user_id}, {$addToSet: {pets: res}},{new:true}).populate('pets applications milestones'))
-  }
+  };
 
 exports.updateImage = (user_id, image) => {
   return User.findOneAndUpdate({_id: user_id}, {$set: {'image':image}},{new:true})
       .populate('pets applications milestones')
-}
+};
 
 
 
@@ -102,11 +102,11 @@ exports.addMilestone= (milestone, user) => {
 exports.search = (query) => {
   const regex = new RegExp( query, 'i' );
   return new Promise((resolve, reject) => {
-    User.find({}, 'name email image')
-        .or([{ 'name': regex }, { 'email': regex }])
+    User.find({}, {name:true, email:true, image:true,_id:false, phone:true})
+        .or([{ 'name': regex }, { 'email': regex }, { 'phone': regex }])
         .exec((err,users) => {
           if(err){
-            reject('Error al cargar el usuario', err);
+            reject('Error al buscar usuarios', err);
           }else{
             resolve(users)
           }
@@ -116,6 +116,6 @@ exports.search = (query) => {
 };
 exports.friends = (mail) =>  {
   return friendshipService.friends(mail).then((friends)=>{
-    return Promise.all(friends.map((email) => User.find({email}, 'name email image')))
+    return Promise.all(friends.relation.map((email) => User.find({email}, 'name email image')))
   })
 };

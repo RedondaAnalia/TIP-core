@@ -43,7 +43,8 @@ exports.friends = (mail) =>{
         },
         headers: {
             'content-type': 'application/json'
-        }
+        },
+        json:true
     };
 
     return rp(options)
