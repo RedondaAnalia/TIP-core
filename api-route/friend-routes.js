@@ -7,6 +7,6 @@ const friendController = require('../controller/friendController');
 // User routes
 app
     .post('/relationship', friendController.relationship)
-    .get('/:email',friendController.friends)
+    .get('/:email',friendController.friends);
 
 module.exports = app;

@@ -37,13 +37,14 @@ exports.createRelationship = (amail, bmail) =>{
 exports.friends = (mail) =>{
     const options = {
         method: 'GET',
-        uri: "process.env.FRIEND_URL"+ "user",
-        params: {
-            email: mail
+        uri: process.env.FRIEND_URL+ "friends",
+        qs: {
+            mail: mail
         },
         headers: {
             'content-type': 'application/json'
-        }
+        },
+        json:true
     };
 
     return rp(options)

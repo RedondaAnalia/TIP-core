@@ -153,6 +153,41 @@ exports.password = function (req, res) {
 };
 
 
+// PROP: Returns the corresponding user to the mail that arrives by parameter.
+exports.search = function (req, res) {
+    userRepository.search(req.query.query)
+        .then( users => {
+            res.status(200).json({
+                ok:true,
+                message: 'User found!',
+                data: users
+            });
+        }).catch(err => {
+        res.status(404).json({
+            ok:false,
+            message: 'Error finding user!',
+            err
+        });
+    });
+};
+
+exports.friends = (req, res) => {
+    userRepository.friends(req.query.mail)
+        .then(users => {
+            res.status(200).json({
+                ok : true,
+                message: 'friends found!',
+                data: users
+            });
+        }).catch(err => {
+        res.status(412).json({
+            ok: false,
+            message: 'Error load friends!',
+            err
+        });
+    });
+};
+
 
 
 // FIXME: ESTOS UPDATES EN FUTURO VAN A SER MAS ESPECIFICOS. QUEDAN PARA NO ROMPER NADA.
