@@ -15,7 +15,6 @@ app
  *	"bMail": String
  * }
  */
-localhost:3000/friends/relationship
     .post('/relationship', friendController.relationship)
 
 
