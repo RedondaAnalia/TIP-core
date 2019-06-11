@@ -6,7 +6,17 @@ const friendController = require('../controller/friendController');
 
 // User routes
 app
+/**
+ * url: localhost:3000/friends/relationship
+ * POST
+ * json:
+ * {
+ *  "aMail": String,
+ *	"bMail": String
+ * }
+ */
+localhost:3000/friends/relationship
     .post('/relationship', friendController.relationship)
-    .get('/:email',friendController.friends);
+
 
 module.exports = app;
