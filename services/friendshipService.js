@@ -20,7 +20,7 @@ exports.newSocialUser = (mail) =>{
 exports.createRelationship = (amail, bmail) =>{
     const options = {
         method: 'POST',
-        uri: "process.env.FRIEND_URL"+ "relationship",
+        uri: process.env.FRIEND_URL+ "relationship",
         body: {
             aMail: amail,
             bMail: bmail
