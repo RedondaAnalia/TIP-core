@@ -114,6 +114,34 @@ exports.search = (query) => {
 
   })
 };
+
+
+exports.searchFriends = (user, query) => {
+  const regex = new RegExp( query, 'i' );
+  return new Promise((resolve, reject) => {
+    User.find({}, {name:true, email:true, image:true,_id:false, phone:true})
+        .or([{ 'name': regex }, { 'email': regex }, { 'phone': regex }])
+        .exec((err,users) => {
+          if(err){
+            reject('Error al buscar usuarios', err);
+          }else{
+            resolve(this.compareWithFriends(user, users))
+          }
+        })
+
+  })
+};
+
+
+
+
+exports.compareWithFriends = (user, users) =>{
+  return friendshipService.friends(user).then((friends)=>{
+    return Promise.all(users.map((u) => {
+      u.friend = friends.relation.includes(u.email)
+    }))
+  })
+}
 exports.friends = (mail) =>  {
   return friendshipService.friends(mail).then((friends)=>{
     return Promise.all(friends.relation.map((email) => User.find({email}, 'name email image')))
