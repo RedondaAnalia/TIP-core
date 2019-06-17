@@ -159,7 +159,7 @@ exports.search = function (req, res) {
         .then( users => {
             res.status(200).json({
                 ok:true,
-                message: 'User found!',
+                message: 'Users found!',
                 data: users
             });
         }).catch(err => {
