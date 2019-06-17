@@ -1,312 +1,507 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "PET HEROES API",
-      "description": "pet heroes API",
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
-      }
-    },
-    "host": "localhost:3000",
-    "basePath": "/",
-    "tags": [
-      {
-        "name": "Users",
-        "description": "API for users in the system"
-      }
-    ],
-    "schemes": [
-      "http"
-    ],
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/users": {
-        "post": {
-          "tags": [
-            "Users"
-          ],
-          "description": "Create new user in system",
-          "parameters": [
-            {
-              "name": "user",
-              "in": "body",
-              "description": "User that we want to create",
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "New user is created",
-              "schema": {
-                "$ref": "#/definitions/Usern"
-              }
-            }
-          }
-        },
-        "get": {
-          "tags": [
-            "Users"
-          ],
-          "summary": "Get all users in system",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
-            }
-          }
-        },
-        "put": {
-          "summary": "Update user with give ID",
-          "tags": [
-            "Users"
-          ],
-          "parameters": [
-            {
-              "name": "user",
-              "in": "body",
-              "description": "User with new values of properties",
-              "schema": {
-                "$ref": "#/definitions/UserU"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "User is updated",
-              "schema": {
-                "$ref": "#/definitions/UsersT"
-              }
-            }
-          }
-        }
-      },
-      "/users/{userId}": {
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "PET HEROES API",
+    "description": "pet heroes API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create new user in system",
         "parameters": [
           {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "description": "ID of user that we want to find",
-            "type": "string"
-          }
-        ],
-        "get": {
-          "tags": [
-            "Users"
-          ],
-          "summary": "Get user with given ID",
-          "responses": {
-            "200": {
-              "description": "User is found",
-              "schema": {
-                "$ref": "#/definitions/UsersB"
-              }
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
             }
           }
-        },
-        "delete": {
-          "summary": "Delete user with given ID",
-            "securityDefinitions": {
-              "JWT": {
-                  "type": "apiKey",
-                  "description": "",
-                  "name": "Authorization",
-                  "in": "header"
-              }
-          },
-          "tags": [
-            "Users"
-          ],
-          "responses": {
-            "200": {
-              "description": "User is deleted",
-              "schema": {
-              }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/Usern"
             }
           }
         }
       },
-      "/users/pet": {
-        "get": {
-          "tags": [
-            "Users"
-          ],
-          "description": "Create new user in system",
-          "parameters": [
-            {
-              "name": "user",
-              "in": "body",
-              "description": "User that we want to create",
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "New user is created",
-              "schema": {
-                "$ref": "#/definitions/Usern"
-              }
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
             }
           }
         }
       }
     },
-    "definitions": {
-      "User": {
-        "required": [
-          "name",
-          "email",
-          "password"
+    "/users/experience": {
+      "put": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "Users"
         ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "password": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": ["USER_ROLE", "VET_ROLE", "SERVICE_ROLE"]
-          },
-          "phone": {
-            "type": "string"
-          },
-          "gender": {
-            "type": "string",
-            "enum": ["MALE", "FEMALE"]
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User with new values of properties",
+            "schema": {
+              "required": [
+                "id",
+                "exp"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "exp": {
+                  "type": "number"
+                }
+              }
+            }
           }
-        }
-      },
-      "UserU": {
-        "required": [
-          "_id"
         ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "password": {
-            "type": "string"
-          },
-          "_id": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": ["USER_ROLE", "VET_ROLE", "SERVICE_ROLE"]
-          },
-          "phone": {
-            "type": "string"
-          },
-          "gender": {
-            "type": "string",
-            "enum": ["MALE", "FEMALE"]
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/UsersExpUpdated"
+            }
+          }
+        }
+      }
+    },
+    "/users/image": {
+      "put": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User with new values of properties",
+            "schema": {
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/UsersPhotoUpdated"
+            }
+          }
+        }
+      }
+    },
+    "/users/search?query={query}": {
+      "get": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Users found",
+            "schema": {
+              "$ref": "#/definitions/FoundUsers"
+            }
+          }
+        }
+      }
+    },
+    "/users/password": {
+      "put": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User with new values of properties",
+            "schema": {
+              "required": [
+                "id",
+                "password"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/UsersPassUpdated"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user with given ID",
+        "responses": {
+          "200": {
+            "description": "User is found",
+            "schema": {
+              "$ref": "#/definitions/UsersB"
+            }
           }
         }
       },
-
-
-      "Users": {
-        "properties": {
-          "ok": "boolean",
-          "users": {
-          "type": "array",
-          "$ref": "#/definitions/UsersT"
-          },
-          "total": "number"
-        }
-      },
-      "Usern": {
-        "required": [],
-        "properties": {
-          "message": "New user created!",
-          "data": {
-            "$ref": "#/definitions/UsersT"
+      "delete": {
+        "summary": "Delete user with given ID",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "User is deleted",
+            "schema": {}
           }
         }
-      },
-
-      "UsersB": {
-        "required": [],
-        "properties": {
-          "message": "User details loading..",
-          "data": {
-            "$ref": "#/definitions/UsersT"
+      }
+    },
+    "/users/pet": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
-        }
-      },
-
-      "UsersT": {
-        "required": [],
-        "properties": {
-          "role": {
-            "type": "string",
-            "enum": ["USER_ROLE", "VET_ROLE", "SERVICE_ROLE"]
-          },
-          "pets": {
-            "type": "array",
-            "$ref": "#/definitions/User"
-          },
-          "experience": {
-            "type": "number"
-          },
-          "level": {
-            "type": "number"
-          },
-          "_id": {
-            "type": "number"
-          },
-          "create_date": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "name": {
-            "type": "string"
-          },
-          "gender": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "phone": {
-            "type": "string"
-          },
-          "__v": {
-            "type": "number"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/Usern"
+            }
           }
         }
       }
     }
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "name",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "USER_ROLE",
+            "VET_ROLE",
+            "SERVICE_ROLE"
+          ]
+        },
+        "phone": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "MALE",
+            "FEMALE"
+          ]
+        }
+      }
+    },
+    "UserU": {
+      "required": [
+        "_id"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "_id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "USER_ROLE",
+            "VET_ROLE",
+            "SERVICE_ROLE"
+          ]
+        },
+        "phone": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "MALE",
+            "FEMALE"
+          ]
+        }
+      }
+    },
+    "Users": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "users": {
+          "type": "array",
+          "$ref": "#/definitions/UsersT"
+        },
+        "total": {
+          "type": "number"
+        }
+      }
+    },
+    "Usern": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string",
+          "example": "New user created!"
+        },
+        "data": {
+          "$ref": "#/definitions/UsersT"
+        }
+      }
+    },
+    "UsersB": {
+      "properties": {
+        "message": {
+          "type": "string",
+          "default": "User details loading.."
+        },
+        "data": {
+          "$ref": "#/definitions/UsersT"
+        }
+      }
+    },
+    "UsersExpUpdated": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string",
+          "example": "User exp updated"
+        },
+        "data": {
+          "$ref": "#/definitions/UsersT"
+        }
+      }
+    },
+    "UsersPhotoUpdated": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string",
+          "example": "User photo updated"
+        },
+        "data": {
+          "$ref": "#/definitions/UsersT"
+        }
+      }
+    },
+    "UsersPassUpdated": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string",
+          "example": "User password updated"
+        }
+      }
+    },
+    "UsersT": {
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "USER_ROLE",
+            "VET_ROLE",
+            "SERVICE_ROLE"
+          ]
+        },
+        "pets": {
+          "type": "array",
+          "$ref": "#/definitions/User"
+        },
+        "experience": {
+          "type": "number"
+        },
+        "level": {
+          "type": "number"
+        },
+        "_id": {
+          "type": "number"
+        },
+        "create_date": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "image": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "__v": {
+          "type": "number"
+        }
+      }
+    },
+    "FoundUsers": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string",
+          "example": "Users found!"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LiteUser"
+          }
+        }
+      }
+    },
+    "LiteUser": {
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    }
   }
+}

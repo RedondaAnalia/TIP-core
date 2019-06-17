@@ -155,11 +155,11 @@ exports.password = function (req, res) {
 
 // PROP: Returns the corresponding user to the mail that arrives by parameter.
 exports.search = function (req, res) {
-    userRepository.search(req.query.query)
+    userRepository.search(req.query.user, req.query.query)
         .then( users => {
             res.status(200).json({
                 ok:true,
-                message: 'User found!',
+                message: 'Users found!',
                 data: users
             });
         }).catch(err => {
