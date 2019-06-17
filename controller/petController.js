@@ -61,7 +61,8 @@ exports.application = function (req, res) {
 
 exports.image = function (req, res) {
     console.log(req.file)
-    petRepository.updateImage(req.body.id,req.file.path).then(pet =>{
+    petRepository.updateImage(req.body.id,req.file.location).then(pet =>{
+        console.log(pet);
         res.json({
             message: 'Pet photo updated',
             data: pet

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+
 require('custom-env').env(true)
 
 const swaggerUi = require('swagger-ui-express'),
@@ -50,11 +51,13 @@ let userRoutes = require("./api-route/user-routes");
 let loginRoutes = require("./api-route/login-routes");
 let petRoutes = require("./api-route/pet-routes");
 let appRoutes = require('./api-route/app');
+let friendRoutes = require('./api-route/friend-routes')
 
 app.use('/applications', applicationRoutes);
 app.use('/vaccine', vaccineRoutes);
 app.use('/login', loginRoutes);
 app.use('/users', userRoutes);
+app.use('/friends', friendRoutes);
 app.use('/pets', petRoutes);
 app.use('/uploads', express.static('uploads'))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
