@@ -44,6 +44,7 @@ exports.markAsApplied = function (req) {
   return Application.findById(req.body.application_id)
                     .then( application => {
                                   application.application_date = req.body.application_date;
+                                  application.save();
                                   return application
                   }).then( application =>{
                                   appl = application
