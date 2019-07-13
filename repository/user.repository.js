@@ -87,7 +87,9 @@ exports.updateImage = (user_id, image) => {
 
 
 exports.addMilestone= (milestone, user) => {
-  return this.addExperience(user,milestone.points).then(user =>{
+  console.log(milestone);
+  console.log(user);
+  return this.addExperience(user,milestone.points).then(() =>{
     return User.findOneAndUpdate({email: user},
         {$addToSet: {milestones: milestone}},
         {new:true})

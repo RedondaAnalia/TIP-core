@@ -44,17 +44,18 @@ exports.markAsApplied = function (req) {
   return Application.findById(req.body.application_id)
                     .then( application => {
                                   application.application_date = req.body.application_date;
-                                  application.save();
                                   return application
                   }).then( application =>{
                                   appl = application
-                                  return computingMilestone(application, req.body.pet_owner_email)
+                                  return computingMilestone(appl, req.body.pet_owner_email)
                   }).then( milestone =>{
-                                  return [appl,milestone];
+                                    return appl.save().then(res=>{
+                                  return [appl,milestone];})
                   })
 };
 
 computingMilestone =  async function (application, userOwner){
+    console.log(userOwner);
   if (application.application_date > application.estimated_date){
     return null;
   } 
