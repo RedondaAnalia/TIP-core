@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/RedondaAnalia/TIP-core#readme",
   "dependencies": {
-    "aws-sdk": "^2.457.0",
+    "aws-sdk": "^2.814.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "custom-env": "^1.0.1",
